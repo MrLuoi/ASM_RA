@@ -27,6 +27,59 @@
       "email": "ph51493@gmail.com",
       "password": "$2a$10$4/l4.zfnpZu28t7xBgvDMOpl.ixYdJDzfyJj5Bo4Rr5nmcvyQKiJ2",
       "id": 2
+    },
+    {
+      "email": "manh9102022205@gmail.com",
+      "password": "$2a$10$4FlMy/axEPiZSb561Q2/SeQD3yYK/HC8GYJMgbMZeP4TyYUBql4IW",
+      "username": "1512312312",
+      "confirmPassword": "123456",
+      "id": 3
+    },
+    {
+      "email": "m22anh9102022205@gmail.com",
+      "password": "$2a$10$hcqkfJaTLxDNCByeF/Wph..B1AOJ4uhvnnEoxpollwpGw9OXmNAYi",
+      "username": "manhzn",
+      "confirmPassword": "123456",
+      "id": 4
+    },
+    {
+      "email": "manh91022342022205@gmail.com",
+      "password": "$2a$10$J65BDCuYfrW5NO30xg/2GuqAbDWQNZ2dX1l8IXvFlflLQ1C2l0l1a",
+      "username": "1512312312",
+      "confirmPassword": "123456",
+      "id": 5
+    },
+    {
+      "email": "manh9102222022205@gmail.com",
+      "password": "$2a$10$glD5.WSDP2Dq8VoL/zx1zeaL83NZDFc0E./GgsCJWVvvxYeXLBNSm",
+      "username": "1512312312",
+      "confirmPassword": "123456",
+      "id": 1742128027687
+    },
+    {
+      "email": "manh9102022233305@gmail.com",
+      "password": "$2a$10$4Ab6nSTBuCYoWjRkJhskxOmp0AjMUOZqvMBaKiJ9.qnbvN3YmFQvi",
+      "username": "151231233312",
+      "confirmPassword": "123456",
+      "id": 1742128109495
+    },
+    {
+      "email": "manh9102005@gmail.com",
+      "password": "$2a$10$kx.4B6onvF5ELbCldM.rbeBXQnV7JeHboPc1G8A8.NADRRcng1FLa",
+      "username": "manhzn",
+      "id": 1742128109496
+    },
+    {
+      "email": "manh91020222205@gmail.com",
+      "password": "$2a$10$KkvlpLdyUPelwPIIZuwyduUvgZz9CI/MPZKeMVM1HZNIcxN1p9vW.",
+      "username": "1512312312",
+      "id": 1742128109497
+    },
+    {
+      "email": "manh9102022ewer205@gmail.com",
+      "password": "$2a$10$.jJjU/aKGJVeD9ZEpIJiKOlR1B6kc7ssyjguGtwi/8L1TuUetiIRC",
+      "username": "1512312312",
+      "id": 1742128109498
     }
   ]
 }
