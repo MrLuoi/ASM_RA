@@ -1,0 +1,32 @@
+{
+  "orders": [
+    {
+      "id": 1,
+      "customerName": "Nguyễn Văn Ab",
+      "productName": "Sản phẩm Ab",
+      "unit": "Cặp",
+      "quantity": "201",
+      "price": 150000
+    },
+    {
+      "customerName": "Nguyễn Văn A",
+      "productName": "Sản phẩm A",
+      "unit": "Kg",
+      "quantity": "12",
+      "price": "213313",
+      "id": 2
+    }
+  ],
+  "users": [
+    {
+      "email": "abc@gmail.com",
+      "password": "$2a$10$IRbsy.yyI7ga5XsrMSv9oe7ZB6rIoR.tiIbKq2zgDIlBWHlQLPYqK",
+      "id": 1
+    },
+    {
+      "email": "ph51493@gmail.com",
+      "password": "$2a$10$4/l4.zfnpZu28t7xBgvDMOpl.ixYdJDzfyJj5Bo4Rr5nmcvyQKiJ2",
+      "id": 2
+    }
+  ]
+}
