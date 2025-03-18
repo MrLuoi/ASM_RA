@@ -1,90 +1,51 @@
-import React from "react";
-import { useForm } from "react-hook-form";
-import Ilogin from "../interfaces/user";
+import { Form, Input, Button, Card, message } from "antd";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import Ilogin from "../interfaces/user";
+
 
 function Login() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Ilogin>();
   const navigate = useNavigate();
 
-  const onSubmit = async (data: Ilogin) => {
-    try {
-      const res = await axios.post("http://localhost:3000/login", data);
-      if (res) {
-        localStorage.setItem("token", res.data.successToken);
-      }
+  const loginMutation = useMutation({
+    mutationFn: async (userData: Ilogin) => {
+      await axios.post("http://localhost:3000/login", userData);
+    },
+    onSuccess: () => {
       toast.success("✅ Đăng nhập thành công!");
       navigate("/admin/list");
-    } catch (error) {
-      toast.error(`❌ ${(error as AxiosError).message}`);
-    }
+    },
+    onError: () => {
+      message.error(" Đăng nhập thất bại!");
+    },
+  });
+
+  const onFinish = (values: Ilogin) => {
+    loginMutation.mutate(values);
   };
 
   return (
-    <div className="container mt-5">
-      <div className="row justify-content-center">
-        <div className="col-md-5">
-          <div className="card shadow-lg p-4">
-            <h2 className="text-center mb-4">🔑 Đăng Nhập</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              
-              {/* Email */}
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label fw-bold">
-                  <i className="fas fa-envelope"></i> Email
-                </label>
-                <input
-                  {...register("email", {
-                    required: "Vui lòng nhập email!",
-                    pattern: {
-                      value: /^\S+@\S+\.\S+$/,
-                      message: "Email không hợp lệ!",
-                    },
-                  })}
-                  type="email"
-                  className="form-control"
-                  id="email"
-                  placeholder="Nhập email của bạn"
-                />
-                {errors.email && (
-                  <span className="text-danger">{errors.email.message}</span>
-                )}
-              </div>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
+      <Card title="🔑 Đăng Nhập" style={{ width: 350 }}>
+        <Form layout="vertical" onFinish={onFinish}>
+          {/* Email */}
+          <Form.Item label="Email" name="email" rules={[{ required: true, type: "email", message: "Vui lòng nhập email hợp lệ!" }]}>
+            <Input />
+          </Form.Item>
 
-              {/* Password */}
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label fw-bold">
-                  <i className="fas fa-lock"></i> Mật khẩu
-                </label>
-                <input
-                  {...register("password", {
-                    required: "Vui lòng nhập mật khẩu!",
-                    minLength: { value: 6, message: "Ít nhất 6 ký tự!" },
-                  })}
-                  type="password"
-                  className="form-control"
-                  id="password"
-                  placeholder="Nhập mật khẩu"
-                />
-                {errors.password && (
-                  <span className="text-danger">{errors.password.message}</span>
-                )}
-              </div>
+          {/* Mật khẩu */}
+          <Form.Item label="Mật khẩu" name="password" rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}>
+            <Input.Password />
+          </Form.Item>
 
-              {/* Submit Button */}
-              <button type="submit" className="btn btn-primary w-100">
-                🚀 Đăng Nhập
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
+          {/* Nút đăng nhập */}
+          <Button type="primary" htmlType="submit" block>
+            Đăng Nhập
+          </Button>
+        </Form>
+      </Card>
     </div>
   );
 }
