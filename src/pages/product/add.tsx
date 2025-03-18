@@ -1,59 +1,60 @@
 import { Form, Input, Button, Select, message } from "antd";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { addOrder } from "../api/oders";
 
 const { Option } = Select;
+
+const categories = ["Điện thoại", "Laptop", "Máy tính bảng", "Phụ kiện"];
 
 function ProductAdd() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
 
-  // Mutation để thêm đơn hàng
-  const { mutate, isPending } = useMutation({
-    mutationFn: addOrder,
+  const addProductMutation = useMutation({
+    mutationFn: async (newProduct: any) => {
+      await axios.post("http://localhost:3000/products", newProduct);
+    },
     onSuccess: () => {
-      message.success("Thêm đơn hàng thành công!");
-      queryClient.invalidateQueries({ queryKey: ["orders"] }); // Cập nhật lại danh sách
+      message.success("Thêm sản phẩm thành công!");
+      queryClient.invalidateQueries({ queryKey: ["products"] });
       navigate("/");
     },
-    onError: (error: any) => {
-      message.error(`Thêm đơn hàng thất bại! ${error.response?.data?.message || ""}`);
+    onError: () => {
+      message.error("Thêm sản phẩm thất bại!");
     },
   });
 
-  // Gửi form
   const onFinish = (values: any) => {
-    mutate(values);
+    addProductMutation.mutate(values);
   };
 
   return (
     <div>
-      <h1>Thêm đơn hàng</h1>
+      <h1>Thêm sản phẩm</h1>
       <Form layout="vertical" onFinish={onFinish}>
-        <Form.Item label="Tên khách hàng" name="customerName" rules={[{ required: true, message: "Vui lòng nhập tên khách hàng!" }]}>
+        <Form.Item label="Tên sản phẩm" name="name" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
-        <Form.Item label="Sản phẩm" name="productName" rules={[{ required: true, message: "Vui lòng nhập tên sản phẩm!" }]}>
+        <Form.Item label="Mô tả" name="description" rules={[{ required: true }]}>
+          <Input.TextArea />
+        </Form.Item>
+        <Form.Item label="Hình ảnh" name="image" rules={[{ required: true }]}>
           <Input />
         </Form.Item>
-        <Form.Item label="Đơn vị tính" name="unit" rules={[{ required: true, message: "Vui lòng chọn đơn vị tính!" }]}>
-          <Select placeholder="Chọn đơn vị tính">
-            <Option value="cái">Cái</Option>
-            <Option value="hộp">Hộp</Option>
-            <Option value="kg">Kg</Option>
-            <Option value="chai">Chai</Option>
+        <Form.Item label="Giá" name="price" rules={[{ required: true }]}>
+          <Input type="number" />
+        </Form.Item>
+        <Form.Item label="Danh mục" name="category" rules={[{ required: true }]}>
+          <Select placeholder="Chọn danh mục">
+            {categories.map((cat) => (
+              <Option key={cat} value={cat}>
+                {cat}
+              </Option>
+            ))}
           </Select>
         </Form.Item>
-        <Form.Item label="Số lượng" name="quantity" rules={[{ required: true, message: "Vui lòng nhập số lượng!" }]}>
-          <Input type="number" min={1} />
-        </Form.Item>
-        <Form.Item label="Giá" name="price" rules={[{ required: true, message: "Vui lòng nhập giá!" }]}>
-          <Input type="number" min={1} />
-        </Form.Item>
-        <Button type="primary" htmlType="submit" loading={isPending}>
-          {isPending ? "Đang thêm..." : "Thêm"}
-        </Button>
+        <Button type="primary" htmlType="submit">Thêm</Button>
       </Form>
     </div>
   );
