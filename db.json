@@ -9,12 +9,36 @@
       "price": 150000
     },
     {
+<<<<<<< HEAD
       "id": 22,
       "customerName": "Nguyễn Văn ABB",
       "productName": "Sản phẩm Ab",
       "unit": "Cặp",
       "quantity": "201",
       "price": 15000000
+=======
+      "customerName": "Nguyễn Văn A",
+      "productName": "Sản phẩm A",
+      "unit": "Kg",
+      "quantity": "12",
+      "price": "213313",
+      "id": 2
+    },
+    {
+      "customerName": "Nguyễn Văn Abcc",
+      "productName": "Sản phẩm A",
+      "quantity": "21321",
+      "price": "312312",
+      "id": 3
+    },
+    {
+      "customerName": "Nguyễn Văn Abcccc",
+      "productName": "2312312",
+      "unit": "hộp",
+      "quantity": "321312",
+      "price": "31231",
+      "id": 4
+>>>>>>> d05c15ccc00cb704d13c2701962a55d66dbfe5c7
     }
   ],
   "users": [
