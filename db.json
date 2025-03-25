@@ -179,6 +179,12 @@
       "password": "$2a$10$d/hGZo08.bBU2KQT6vagUOAJweqlYCljR8EcyYYrB50xbApOQx9FO",
       "username": "manh22zn33",
       "id": 3
+    },
+    {
+      "email": "abc@gmail.com",
+      "password": "$2a$10$uxx/m/QhIcgf0xT6jVNaW.WdklmJoo/3uc4ayzLX/BjJajthS9vKW",
+      "username": "abc@gmail.com",
+      "id": 4
     }
   ]
 }

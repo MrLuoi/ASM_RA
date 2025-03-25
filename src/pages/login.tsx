@@ -15,7 +15,7 @@ function Login() {
     },
     onSuccess: () => {
       toast.success("✅ Đăng nhập thành công!");
-      navigate("/admin/list");
+      navigate("/");
     },
     onError: () => {
       message.error(" Đăng nhập thất bại!");
