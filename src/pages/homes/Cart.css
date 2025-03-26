@@ -1,0 +1,182 @@
+/* Container chính của giỏ hàng */
+.cart {
+  padding: 20px;
+  min-height: 80vh;
+}
+
+/* Tiêu đề giỏ hàng */
+.cart h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+/* Thông báo giỏ hàng trống */
+.cart .text-center {
+  font-size: 1.2rem;
+  color: #666;
+  padding: 50px 0;
+}
+
+/* Card sản phẩm trong giỏ hàng */
+.cart .card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+}
+
+.cart .card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Hình ảnh sản phẩm */
+.cart .card-img-top {
+  height: 200px;
+  object-fit: cover;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Nội dung trong card */
+.cart .card-body {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cart .card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.cart .card-text {
+  font-size: 0.95rem;
+  color: #555;
+  margin: 0;
+}
+
+.cart .card-text.text-danger {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* Nút điều chỉnh số lượng */
+.cart .quantity-control {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart .btn-outline-secondary {
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  font-size: 1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.cart .btn-outline-secondary:hover {
+  background-color: #f0f0f0;
+}
+
+.cart .quantity-control span {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Nút xóa sản phẩm */
+.cart .btn-danger {
+  width: 100%;
+  padding: 8px;
+  font-size: 0.95rem;
+  border-radius: 5px;
+  background-color: #dc3545;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.cart .btn-danger:hover {
+  background-color: #c82333;
+}
+
+/* Tổng giá trị và nút thanh toán */
+.cart .total-section {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  text-align: right;
+}
+
+.cart .total-section h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.cart .btn-primary {
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  background-color: #007bff;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.cart .btn-primary:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .cart h1 {
+    font-size: 2rem;
+  }
+
+  .cart .card-img-top {
+    height: 150px;
+  }
+
+  .cart .card-title {
+    font-size: 1.1rem;
+  }
+
+  .cart .card-text {
+    font-size: 0.9rem;
+  }
+
+  .cart .total-section h3 {
+    font-size: 1.3rem;
+  }
+
+  .cart .btn-primary {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .cart .col-md-4 {
+    width: 100%;
+  }
+
+  .cart .card {
+    margin-bottom: 20px;
+  }
+
+  .cart .quantity-control {
+    justify-content: center;
+  }
+}

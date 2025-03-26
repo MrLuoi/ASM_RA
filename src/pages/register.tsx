@@ -14,11 +14,11 @@ function Register() {
       await axios.post("http://localhost:3000/register", userData);
     },
     onSuccess: () => {
-      toast.success("✅ Đăng ký thành công!");
+      toast.success("Đăng ký thành công!");
       navigate("/login");
     },
     onError: () => {
-      message.error("✅ Đăng ký thất bại!");
+      message.error("Đăng ký thất bại!");
     },
   });
 

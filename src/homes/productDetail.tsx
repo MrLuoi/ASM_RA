@@ -1,30 +1,60 @@
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
-import "./ProductDetail.css";
-
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { useCart } from "../cart/CartContext";
+import "./productDetail.css"
 export default function ProductDetail() {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
-  const [similarProducts, setSimilarProducts] = useState([]);
+  const [product, setProduct] = useState<any>(null);
+  const [similarProducts, setSimilarProducts] = useState<any[]>([]);
+  const { addToCart } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:3000/products/${id}`)
-      .then((res) => res.json())
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    fetch(`http://localhost:3000/products/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((res) => {
+        if (res.status === 401) throw new Error("Token không hợp lệ");
+        return res.json();
+      })
       .then((data) => {
         setProduct(data);
         fetchSimilarProducts(data.categoryId, data.id);
       })
-      .catch((err) => console.error("Lỗi khi lấy dữ liệu:", err));
-  }, [id]);
+      .catch((err) => {
+        console.error("Lỗi khi lấy dữ liệu:", err);
+        if (err.message === "Token không hợp lệ") {
+          localStorage.removeItem("token");
+          navigate("/login");
+        }
+      });
+  }, [id, navigate]);
 
-  const fetchSimilarProducts = (categoryId, currentProductId) => {
-    fetch(`http://localhost:3000/products?categoryId=${categoryId}`)
+  const fetchSimilarProducts = (categoryId: number, currentProductId: number) => {
+    const token = localStorage.getItem("token");
+    fetch(`http://localhost:3000/products?categoryId=${categoryId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((res) => res.json())
       .then((data) => {
-        const filteredProducts = data.filter((item) => item.id !== currentProductId);
+        const filteredProducts = data.filter((item: any) => item.id !== currentProductId);
         setSimilarProducts(filteredProducts);
       })
       .catch((err) => console.error("Lỗi khi lấy sản phẩm tương tự:", err));
+  };
+
+  const handleAddToCart = () => {
+    if (product) {
+      addToCart(product);
+      alert(`Thêm vào giỏ hàng thành công`);
+      navigate("/cart");
+    }
   };
 
   if (!product) return <p>Đang tải...</p>;
@@ -38,10 +68,11 @@ export default function ProductDetail() {
           <p className="product-price">{product.price.toLocaleString()} VND</p>
           <p className="product-description">{product.description}</p>
           <button className="buy-button">Mua ngay</button>
+          <button className="add-to-cart-button" onClick={handleAddToCart}>
+            Thêm giỏ hàng
+          </button>
         </div>
       </div>
-
-      {/* Sản phẩm tương tự */}
       {similarProducts.length > 0 && (
         <div className="similar-products">
           <h2>Sản phẩm tương tự</h2>

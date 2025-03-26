@@ -1,22 +1,26 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Homepage.css";
 
 const Homepage = () => {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [totalPages, setTotalPages] = useState(1);
+  const navigate = useNavigate();
 
   const productsPerPage = 8;
 
   useEffect(() => {
     const fetchProducts = async () => {
+      const token = localStorage.getItem("token");
       try {
-        const response = await axios.get(`http://localhost:3000/products`);
+        const response = await axios.get(`http://localhost:3000/products`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+        });
         setProducts(response.data);
-        const totalCount = response.headers["x-total-count"] || products.length;
+        const totalCount = response.headers["x-total-count"] || response.data.length;
         setTotalPages(Math.ceil(totalCount / productsPerPage));
       } catch (error) {
         console.error("Lỗi khi lấy sản phẩm:", error);
@@ -25,13 +29,13 @@ const Homepage = () => {
     fetchProducts();
   }, [currentPage, searchTerm]);
 
-  const paginate = (pageNumber) => {
+  const paginate = (pageNumber: number) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
       setCurrentPage(pageNumber);
     }
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
@@ -47,7 +51,6 @@ const Homepage = () => {
 
       <div className="container mt-4">
         <h1 className="title text-center">Danh Sách Sản Phẩm</h1>
-
         <div className="mb-3">
           <input
             type="text"
@@ -57,7 +60,6 @@ const Homepage = () => {
             onChange={handleSearch}
           />
         </div>
-
         <div className="row">
           {products.length > 0 ? (
             products.map((product) => (
@@ -70,9 +72,7 @@ const Homepage = () => {
                   />
                   <div className="card-body d-flex flex-column">
                     <h5 className="card-title">{product.name}</h5>
-                    <p className="card-text flex-grow-1">
-                      {product.description}
-                    </p>
+                    <p className="card-text flex-grow-1">{product.description}</p>
                     <p className="card-text text-danger fw-bold">
                       {product.price.toLocaleString()} VND
                     </p>
@@ -90,7 +90,6 @@ const Homepage = () => {
             <p className="text-center">Không tìm thấy sản phẩm nào.</p>
           )}
         </div>
-
         <nav className="pagination-container mt-4">
           <ul className="pagination justify-content-center">
             <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
@@ -98,7 +97,7 @@ const Homepage = () => {
                 className="page-link"
                 onClick={() => paginate(currentPage - 1)}
               >
-                &laquo;
+                «
               </button>
             </li>
             {Array.from({ length: totalPages }, (_, index) => (
@@ -125,7 +124,7 @@ const Homepage = () => {
                 className="page-link"
                 onClick={() => paginate(currentPage + 1)}
               >
-                &raquo;
+                »
               </button>
             </li>
           </ul>
