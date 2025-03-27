@@ -50,6 +50,9 @@ export default function Navbar() {
         <li>
           <Link to="/cart">Giỏ hàng</Link>
         </li>
+        <li>
+          <Link to="/product/list">Quản trị</Link>
+        </li>
       </ul>
 
       {/* Đăng nhập / Đăng ký / Đăng xuất */}

@@ -211,9 +211,9 @@
       "id": 8
     },
     {
-      "email": "admin@gmail.com",
-      "password": "$2a$10$1cTIs3Pzuq/I5iq5z.ZRr.O6BgacsrVy2CkXQI0hg76oVmdjjrK6a",
-      "username": "admin",
+      "email": "manhznadmin@gmail.com",
+      "password": "$2a$10$Wmy20EDFCE/HIs2K8bDxnukCbOu00FA6FApROtFS8B8fSAYCC3qYi",
+      "username": "manhznadmin",
       "role": "admin",
       "id": 9
     }
