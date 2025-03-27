@@ -8,7 +8,7 @@ interface Product {
   image: string;
   price: number;
   category: number;
-  quantity?: number; // Thêm quantity vào interface
+  quantity?: number;
 }
 
 // Định nghĩa interface cho context
@@ -17,6 +17,7 @@ interface CartContextType {
   addToCart: (product: Product) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
+  clearCart: () => void; // Thêm clearCart
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -24,7 +25,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   // Lấy userId từ localStorage
   const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const userId = user.id || "guest"; // Dùng "guest" nếu chưa đăng nhập
+  const userId = user.id || "guest";
 
   // Khởi tạo cart từ localStorage dựa trên userId
   const [cartItems, setCartItems] = useState<Product[]>(() => {
@@ -47,7 +48,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     };
 
     window.addEventListener("storage", handleStorageChange);
-    handleStorageChange(); // Kiểm tra ngay khi component mount
+    handleStorageChange();
 
     return () => {
       window.removeEventListener("storage", handleStorageChange);
@@ -84,9 +85,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  // Hàm xóa toàn bộ giỏ hàng
+  const clearCart = () => {
+    setCartItems([]);
+    localStorage.removeItem(`cart_${userId}`); // Xóa giỏ hàng khỏi localStorage
+  };
+
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, updateQuantity }}
+      value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart }}
     >
       {children}
     </CartContext.Provider>

@@ -217,5 +217,28 @@
       "role": "admin",
       "id": 9
     }
+  ],
+  "orders": [
+    {
+      "items": [
+        {
+          "id": 1,
+          "name": "iPhone 15 Pro",
+          "description": "Flagship mới nhất từ Apple.",
+          "image": "https://bachlongstore.vn/vnt_upload/product/10_2023/iii.png",
+          "price": 29990000,
+          "category": "Điện thoại",
+          "quantity": 1
+        }
+      ],
+      "total": 29990000,
+      "paymentMethod": "COD",
+      "customer": {
+        "name": "Nguyễn Văn A",
+        "phone": "0123456789",
+        "address": "Hà Nội, Việt Nam"
+      },
+      "id": 1
+    }
   ]
 }

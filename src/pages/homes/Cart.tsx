@@ -1,14 +1,21 @@
 import { useCart } from "../../cart/CartContext"; // Sửa đường dẫn import
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "./Cart.css";
 
 const Cart: React.FC = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const navigate = useNavigate(); // Hook để điều hướng
 
   // Tính tổng giá trị giỏ hàng
   const totalPrice = cartItems.reduce(
-    (total, item) => total + (item.price * (item.quantity || 1)),
+    (total, item) => total + item.price * (item.quantity || 1),
     0
   );
+
+  // Xử lý khi nhấn nút Checkout
+  const handleCheckout = () => {
+    navigate("/checkout"); // Điều hướng đến trang thanh toán
+  };
 
   return (
     <div className="cart container mt-4">
@@ -21,11 +28,7 @@ const Cart: React.FC = () => {
             {cartItems.map((item) => (
               <div key={item.id} className="col-md-4 mb-3">
                 <div className="card">
-                  <img
-                    src={item.image}
-                    className="card-img-top"
-                    alt={item.name}
-                  />
+                  <img src={item.image} className="card-img-top" alt={item.name} />
                   <div className="card-body">
                     <h5 className="card-title">{item.name}</h5>
                     <p className="card-text">{item.description}</p>
@@ -35,26 +38,19 @@ const Cart: React.FC = () => {
                     <div className="quantity-control mb-2">
                       <button
                         className="btn btn-outline-secondary btn-sm"
-                        onClick={() =>
-                          updateQuantity(item.id, (item.quantity || 1) - 1)
-                        }
+                        onClick={() => updateQuantity(item.id, (item.quantity || 1) - 1)}
                       >
                         -
                       </button>
                       <span>{item.quantity || 1}</span>
                       <button
                         className="btn btn-outline-secondary btn-sm"
-                        onClick={() =>
-                          updateQuantity(item.id, (item.quantity || 1) + 1)
-                        }
+                        onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}
                       >
                         +
                       </button>
                     </div>
-                    <button
-                      className="btn btn-danger"
-                      onClick={() => removeFromCart(item.id)}
-                    >
+                    <button className="btn btn-danger" onClick={() => removeFromCart(item.id)}>
                       Remove
                     </button>
                   </div>
@@ -64,7 +60,9 @@ const Cart: React.FC = () => {
           </div>
           <div className="total-section">
             <h3>Total: {totalPrice.toLocaleString()} VND</h3>
-            <button className="btn btn-primary">Checkout</button>
+            <button className="btn btn-primary" onClick={handleCheckout}>
+              Checkout
+            </button>
           </div>
         </>
       )}

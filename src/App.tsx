@@ -13,6 +13,7 @@ import './App.css';
 import ProductDetail from "./homes/productDetail";
 import Navbar from "./components/Navbar";
 import Cart from "./pages/homes/Cart";
+import Checkout from "./pages/homes/Checkout";
 
 
 function App() {
@@ -32,7 +33,9 @@ function App() {
 
         <Route path='/' element={<HomePage/>} />
         <Route path="/product/:id" element={<ProductDetail />} />
+
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
       <Toaster/>
 
