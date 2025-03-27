@@ -7,6 +7,7 @@ export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const username = user.username || user.name || "Khách";
+  const isAdmin = user.role === "admin";
 
   useEffect(() => {
     const checkLoginStatus = () => {
@@ -29,11 +30,20 @@ export default function Navbar() {
     navigate("/login");
   };
 
+  // Xử lý điều hướng đến trang quản trị
+  const handleAdminAccess = () => {
+    if (isAdmin) {
+      navigate("/admin/list"); // Chuyển đến trang quản trị
+    } else {
+      alert("Bạn không có quyền truy cập trang quản trị!"); // Hiển thị cảnh báo
+    }
+  };
+
   return (
     <nav className="navbar">
       {/* Logo */}
       <div className="logo">
-        <Link to="/">MyShop</Link>
+        <Link to="/">{isAdmin ? "Admin" : "MyShop"}</Link>
       </div>
 
       {/* Menu */}
@@ -42,7 +52,7 @@ export default function Navbar() {
           <Link to="/">Trang chủ</Link>
         </li>
         <li>
-          <Link to="/products">Sản phẩm</Link>
+          <Link to="/">Sản phẩm</Link>
         </li>
         <li>
           <Link to="/contact">Liên hệ</Link>
@@ -50,9 +60,14 @@ export default function Navbar() {
         <li>
           <Link to="/cart">Giỏ hàng</Link>
         </li>
-        <li>
-          <Link to="/product/list">Quản trị</Link>
-        </li>
+        {isAdmin && (
+       <li>
+       <Link to="#" onClick={(e) => { e.preventDefault(); handleAdminAccess(); }}>
+         Quản trị
+       </Link>
+     </li>
+     
+        )}
       </ul>
 
       {/* Đăng nhập / Đăng ký / Đăng xuất */}

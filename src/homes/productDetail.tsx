@@ -53,7 +53,7 @@ export default function ProductDetail() {
     if (product) {
       addToCart(product);
       alert(`Thêm vào giỏ hàng thành công`);
-      navigate("/cart");
+     
     }
   };
 
