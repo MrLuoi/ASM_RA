@@ -9,23 +9,36 @@ interface ILogin {
   password: string;
 }
 
+interface IUser {
+  username: string;
+  role: "admin" | "user";
+}
+
 function Login() {
   const navigate = useNavigate();
 
   const loginMutation = useMutation({
     mutationFn: async (userData: ILogin) => {
       const response = await axios.post("http://localhost:3000/login", userData);
-      console.log("Phản hồi từ server:", response.data);
       return response.data;
     },
     onSuccess: (data) => {
       const token = data.accessToken;
+      const user: IUser = data.user || { username: "Khách", role: "user" }; 
+
       if (token) {
         localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(data.user || { username: "Khách" }));
+        localStorage.setItem("user", JSON.stringify(user));
         toast.success("✅ Đăng nhập thành công!");
-        navigate("/");
-        window.location.reload();
+
+        // Điều hướng theo role
+        if (user.role === "admin") {
+          navigate("/admin/list");
+        } else {
+          navigate("/");
+        }
+
+        window.location.reload(); 
       } else {
         message.error("Không nhận được token từ server!");
       }

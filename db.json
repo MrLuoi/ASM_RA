@@ -209,6 +209,13 @@
       "password": "$2a$10$gh79gKY9ceFkQu9AYee6uuWqzWbpi4RrQKddpuWmBjk/Xw2rYr3gy",
       "username": "manhzn123",
       "id": 8
+    },
+    {
+      "email": "admin@gmail.com",
+      "password": "$2a$10$1cTIs3Pzuq/I5iq5z.ZRr.O6BgacsrVy2CkXQI0hg76oVmdjjrK6a",
+      "username": "admin",
+      "role": "admin",
+      "id": 9
     }
   ]
 }

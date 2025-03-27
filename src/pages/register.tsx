@@ -1,10 +1,18 @@
-import { Form, Input, Button, Card ,message } from "antd";
+import { Form, Input, Button, Card, Select, message } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import toast from "react-hot-toast";
-import IRegister from "../interfaces/user";
 
+interface IRegister {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+  role?: "user" | "admin"; 
+}
+
+const { Option } = Select;
 
 function Register() {
   const navigate = useNavigate();
@@ -24,7 +32,7 @@ function Register() {
 
   const onFinish = (values: IRegister) => {
     const { confirmPassword, ...userData } = values;
-    registerMutation.mutate(userData);
+    registerMutation.mutate({ ...userData, role: userData.role || "user" }); // Mặc định là user
   };
 
   return (
@@ -54,6 +62,12 @@ function Register() {
             ]}
           >
             <Input.Password />
+          </Form.Item>
+          <Form.Item label="Vai trò" name="role">
+            <Select defaultValue="user">
+              <Option value="user">Người dùng</Option>
+              <Option value="admin">Quản trị viên</Option>
+            </Select>
           </Form.Item>
           <Button type="primary" htmlType="submit" block>
             Đăng Ký
