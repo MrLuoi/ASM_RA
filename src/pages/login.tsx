@@ -25,6 +25,7 @@ function Login() {
         localStorage.setItem("user", JSON.stringify(data.user || { username: "Khách" }));
         toast.success("✅ Đăng nhập thành công!");
         navigate("/");
+        window.location.reload();
       } else {
         message.error("Không nhận được token từ server!");
       }

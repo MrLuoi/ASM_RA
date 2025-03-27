@@ -57,7 +57,7 @@ export default function Navbar() {
         {isLoggedIn ? (
           <div className="user-info">
             <span>Xin chào, {username}!</span>
-            <button onClick={handleLogout} className="logout-btn">
+            <button onClick={handleLogout} className="btn btn-danger">
               Đăng xuất
             </button>
           </div>
