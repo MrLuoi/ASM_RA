@@ -1,37 +1,29 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./Homepage.css";
 
 const Homepage = () => {
   const [products, setProducts] = useState<any[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [totalPages, setTotalPages] = useState(1);
-  const navigate = useNavigate();
 
-  const productsPerPage = 6; // Giới hạn 6 sản phẩm trên 1 trang
+  const productsPerPage = 8; // Hiển thị 8 sản phẩm mỗi trang
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const token = localStorage.getItem("token");
       try {
-        const response = await axios.get("http://localhost:3000/products", {
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
-        });
-
+        const response = await axios.get("http://localhost:3000/products");
         let filteredProducts = response.data;
 
-        // Tìm kiếm theo tên sản phẩm
         if (searchTerm) {
           filteredProducts = filteredProducts.filter((product: any) =>
             product.name.toLowerCase().includes(searchTerm.toLowerCase())
           );
         }
 
-        // Lọc theo danh mục
         if (selectedCategory) {
           filteredProducts = filteredProducts.filter(
             (product: any) => product.category === selectedCategory
@@ -39,8 +31,6 @@ const Homepage = () => {
         }
 
         setProducts(filteredProducts);
-
-        // Tính tổng số trang
         setTotalPages(Math.ceil(filteredProducts.length / productsPerPage));
       } catch (error) {
         console.error("Lỗi khi lấy sản phẩm:", error);
@@ -50,33 +40,10 @@ const Homepage = () => {
     fetchProducts();
   }, [currentPage, searchTerm, selectedCategory]);
 
-  // Lấy danh sách danh mục từ API (Giả sử API có endpoint này)
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/categories");
-        setCategories(response.data);
-      } catch (error) {
-        console.error("Lỗi khi lấy danh mục:", error);
-      }
-    };
-    fetchCategories();
-  }, []);
-
   const paginate = (pageNumber: number) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) {
       setCurrentPage(pageNumber);
     }
-  };
-
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
-    setCurrentPage(1);
-  };
-
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCategory(e.target.value);
-    setCurrentPage(1);
   };
 
   return (
@@ -88,23 +55,22 @@ const Homepage = () => {
         />
       </div>
 
-      <div className="container mt-4">
-        <h1 className="title text-center">Danh Sách Sản Phẩm</h1>
+      <div className="container">
+        <h1 className="title">Danh Sách Sản Phẩm</h1>
 
-        {/* Thanh tìm kiếm và lọc danh mục */}
-        <div className="d-flex justify-content-between mb-3">
+        {/* Thanh tìm kiếm & bộ lọc */}
+        <div className="filter-container">
           <input
             type="text"
-            className="form-control w-50"
+            className="search-input"
             placeholder="Tìm kiếm sản phẩm..."
             value={searchTerm}
-            onChange={handleSearch}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-
           <select
-            className="form-control w-25"
+            className="category-select"
             value={selectedCategory}
-            onChange={handleCategoryChange}
+            onChange={(e) => setSelectedCategory(e.target.value)}
           >
             <option value="">Tất cả danh mục</option>
             <option value="Điện thoại">Điện thoại</option>
@@ -112,79 +78,49 @@ const Homepage = () => {
             <option value="Laptop">Laptop</option>
             <option value="Máy tính bảng">Máy tính bảng</option>
           </select>
-
         </div>
 
-        {/* Hiển thị danh sách sản phẩm */}
-        <div className="row">
+        {/* Hiển thị sản phẩm */}
+        <div className="product-grid">
           {products.length > 0 ? (
             products
               .slice((currentPage - 1) * productsPerPage, currentPage * productsPerPage)
               .map((product) => (
-                <div key={product._id} className="col-md-4 mb-4">
-                  <div className="card h-100">
-                    <img
-                      src={product.image}
-                      className="card-img-top"
-                      alt={product.name}
-                    />
-                    <div className="card-body d-flex flex-column">
-                      <h5 className="card-title">{product.name}</h5>
-                      <p className="card-text flex-grow-1">{product.description}</p>
-                      <p className="card-text text-danger fw-bold">
-                        {product.price.toLocaleString()} VND
-                      </p>
-                      <Link
-                        to={`/product/${product.id}`}
-                        className="btn btn-primary mt-auto"
-                      >
-                        Xem chi tiết
-                      </Link>
-                    </div>
+                <div key={product._id} className="product-card">
+                  <img src={product.image} alt={product.name} className="product-img" />
+                  <div className="product-info">
+                    <h5 className="product-title">{product.name}</h5>
+                    <p className="product-desc">{product.description}</p>
+                    <p className="product-price">{product.price.toLocaleString()} VND</p>
+                    <Link to={`/product/${product.id}`} className="btn-view">
+                      Xem chi tiết
+                    </Link>
                   </div>
                 </div>
               ))
           ) : (
-            <p className="text-center">Không tìm thấy sản phẩm nào.</p>
+            <p className="no-products">Không tìm thấy sản phẩm nào.</p>
           )}
         </div>
 
         {/* Phân trang */}
-        <nav className="pagination-container mt-4">
-          <ul className="pagination justify-content-center">
-            <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-              <button
-                className="page-link"
-                onClick={() => paginate(currentPage - 1)}
-              >
-                «
-              </button>
-            </li>
-            {Array.from({ length: totalPages }, (_, index) => (
-              <li
-                key={index + 1}
-                className={`page-item ${currentPage === index + 1 ? "active" : ""}`}
-              >
-                <button
-                  className="page-link"
-                  onClick={() => paginate(index + 1)}
-                >
-                  {index + 1}
-                </button>
-              </li>
-            ))}
-            <li
-              className={`page-item ${currentPage === totalPages ? "disabled" : ""}`}
+        <div className="pagination">
+          <button className="page-btn" disabled={currentPage === 1} onClick={() => paginate(currentPage - 1)}>
+            «
+          </button>
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              className={`page-btn ${currentPage === index + 1 ? "active" : ""}`}
+              onClick={() => paginate(index + 1)}
             >
-              <button
-                className="page-link"
-                onClick={() => paginate(currentPage + 1)}
-              >
-                »
-              </button>
-            </li>
-          </ul>
-        </nav>
+              {index + 1}
+            </button>
+          ))}
+          <button className="page-btn" disabled={currentPage === totalPages} onClick={() => paginate(currentPage + 1)}>
+            »
+          </button>
+        </div>
       </div>
     </div>
   );
