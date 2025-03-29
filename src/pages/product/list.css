@@ -1,0 +1,148 @@
+/* Container chính */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Tiêu đề */
+  .title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  /* Bảng sản phẩm */
+  .product-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  /* Header */
+  .product-table thead {
+    background: #ff5722;
+    color: white;
+  }
+  
+  .product-table th, 
+  .product-table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Ảnh sản phẩm */
+  .product-img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  /* Cột mô tả */
+  .description {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* Giá tiền */
+  .price {
+    font-weight: bold;
+    color: #e53935;
+  }
+  
+  /* Nút hành động */
+  .actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  /* Nút Sửa */
+  .edit-btn {
+    text-decoration: none;
+    background: #2196f3;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: 0.3s;
+  }
+  
+  .edit-btn:hover {
+    background: #1976d2;
+  }
+  
+  /* Nút Xóa */
+  .delete-btn {
+    background: #e53935;
+    color: white;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .delete-btn:hover {
+    background: #c62828;
+  }
+  
+  /* Hiệu ứng hover cho hàng */
+  .product-table tbody tr:hover {
+    background: #f5f5f5;
+  }
+  
+  /* Loading và Error */
+  .loading {
+    text-align: center;
+    font-size: 16px;
+    color: #666;
+  }
+  
+  .error {
+    text-align: center;
+    font-size: 16px;
+    color: red;
+  }
+  
+  /* Phân trang */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .page-btn {
+    background: #ff5722;
+    color: white;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+  }
+  
+  .page-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .page-number {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  

@@ -1,10 +1,13 @@
-import { Table, Button, Popconfirm, message } from "antd";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import "./list.css"; // Import CSS thuần
 
 function ProductList() {
   const queryClient = useQueryClient();
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 8; // 8 sản phẩm 1 trang
 
   // Lấy danh sách sản phẩm
   const getAllProducts = async () => {
@@ -24,72 +27,89 @@ function ProductList() {
   const mutation = useMutation({
     mutationFn: deleteProduct,
     onSuccess: () => {
-      message.success("Xóa sản phẩm thành công!");
+      alert("Xóa sản phẩm thành công!");
       queryClient.invalidateQueries({ queryKey: ["products"] });
     },
     onError: () => {
-      message.error("Có lỗi xảy ra khi xóa sản phẩm!");
+      alert("Có lỗi xảy ra khi xóa sản phẩm!");
     },
   });
 
-  const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
-    {
-      title: "Tên sản phẩm",
-      dataIndex: "name",
-      key: "name",
-    },
-    {
-      title: "Mô tả",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Hình ảnh",
-      dataIndex: "image",
-      key: "image",
-      render: (image: string) => <img src={image} alt="product" width={50} />,
-    },
-    {
-      title: "Giá",
-      dataIndex: "price",
-      key: "price",
-      render: (price: number) => `${price.toLocaleString()} đ`,
-    },
-    {
-      title: "Danh mục",
-      dataIndex: "category",
-      key: "category",
-    },
-    {
-      title: "Hành động",
-      key: "actions",
-      render: (record: any) => (
-        <>
-          <Link to={`/admin/edit/${record.id}`}>
-            <Button type="primary" style={{ marginRight: 8 }}>Sửa</Button>
-          </Link>
-          <Popconfirm
-            title="Bạn có chắc chắn muốn xóa?"
-            onConfirm={() => mutation.mutate(record.id)}
-            okText="Xóa"
-            cancelText="Hủy"
-          >
-            <Button type="primary" danger>Xóa</Button>
-          </Popconfirm>
-        </>
-      ),
-    },
-  ];
+  if (isLoading) return <p className="loading">Đang tải dữ liệu...</p>;
+  if (error) return <p className="error">Đã xảy ra lỗi khi tải dữ liệu.</p>;
 
-  if (isLoading) return <p>Đang tải dữ liệu...</p>;
-  if (error) return <p>Đã xảy ra lỗi khi tải dữ liệu.</p>;
+  // Tính toán phân trang
+  const totalPages = Math.ceil(data.length / productsPerPage);
+  const startIndex = (currentPage - 1) * productsPerPage;
+  const endIndex = startIndex + productsPerPage;
+  const paginatedProducts = data.slice(startIndex, endIndex);
 
-  return <Table dataSource={data} columns={columns} rowKey="id" />;
+  return (
+    <div className="container">
+      <h2 className="title">📦 Danh sách sản phẩm</h2>
+      <table className="product-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Tên sản phẩm</th>
+            <th>Mô tả</th>
+            <th>Hình ảnh</th>
+            <th>Giá</th>
+            <th>Danh mục</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          {paginatedProducts.map((product: any) => (
+            <tr key={product.id}>
+              <td>{product.id}</td>
+              <td>{product.name}</td>
+              <td className="description">{product.description}</td>
+              <td>
+                <img src={product.image} alt="product" className="product-img" />
+              </td>
+              <td className="price">{product.price.toLocaleString()} đ</td>
+              <td>{product.category}</td>
+              <td className="actions">
+                <Link to={`/admin/edit/${product.id}`} className="edit-btn">
+                  ✏️ Sửa
+                </Link>
+                <button
+                  onClick={() => {
+                    if (window.confirm("Bạn có chắc chắn muốn xóa?")) {
+                      mutation.mutate(product.id);
+                    }
+                  }}
+                  className="delete-btn"
+                >
+                  🗑️ Xóa
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Phân trang */}
+      <div className="pagination">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className="page-btn"
+        >
+          ◀ Trang trước
+        </button>
+        <span className="page-number">Trang {currentPage} / {totalPages}</span>
+        <button
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className="page-btn"
+        >
+          Trang sau ▶
+        </button>
+      </div>
+    </div>
+  );
 }
 
 export default ProductList;

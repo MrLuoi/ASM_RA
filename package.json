@@ -14,7 +14,6 @@
     "@amcharts/amcharts5": "^5.11.1",
     "@ant-design/icons": "^5.6.1",
     "@tanstack/react-query": "^5.68.0",
-    "antd": "^5.24.3",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
     "json-server": "^0.17.4",

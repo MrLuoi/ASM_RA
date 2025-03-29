@@ -1,68 +1,67 @@
-import { useCart } from "../../cart/CartContext"; // Sửa đường dẫn import
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import "./Cart.css";
+import { useCart } from "../../cart/CartContext";
+import { useNavigate } from "react-router-dom";
+import "./Cart.css"; // Import CSS thuần
 
 const Cart: React.FC = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
-  const navigate = useNavigate(); // Hook để điều hướng
+  const navigate = useNavigate();
 
-  // Tính tổng giá trị giỏ hàng
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.price * (item.quantity || 1),
     0
   );
 
-  // Xử lý khi nhấn nút Checkout
   const handleCheckout = () => {
-    navigate("/checkout"); // Điều hướng đến trang thanh toán
+    navigate("/checkout");
   };
 
   return (
-    <div className="cart container mt-4">
-      <h1 className="text-center mb-4">Shopping Cart</h1>
+    <div className="cart-container">
+      <h1 className="cart-title">🛒 Giỏ Hàng</h1>
+
       {cartItems.length === 0 ? (
-        <p className="text-center">Your cart is empty.</p>
+        <p className="empty-cart">Giỏ hàng của bạn đang trống.</p>
       ) : (
         <>
-          <div className="row">
-            {cartItems.map((item) => (
-              <div key={item.id} className="col-md-4 mb-3">
-                <div className="card">
-                  <img src={item.image} className="card-img-top" alt={item.name} />
-                  <div className="card-body">
-                    <h5 className="card-title">{item.name}</h5>
-                    <p className="card-text">{item.description}</p>
-                    <p className="card-text text-danger fw-bold">
-                      {(item.price * (item.quantity || 1)).toLocaleString()} VND
-                    </p>
-                    <div className="quantity-control mb-2">
-                      <button
-                        className="btn btn-outline-secondary btn-sm"
-                        onClick={() => updateQuantity(item.id, (item.quantity || 1) - 1)}
-                      >
-                        -
-                      </button>
+          <table className="cart-table">
+            <thead>
+              <tr>
+                <th>Sản phẩm</th>
+                <th>Đơn giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              {cartItems.map((item) => (
+                <tr key={item.id}>
+                  <td className="cart-item">
+                    <img src={item.image} alt={item.name} className="cart-item-img" />
+                    <span>{item.name}</span>
+                  </td>
+                  <td>{item.price.toLocaleString()} VND</td>
+                  <td>
+                    <div className="quantity-control">
+                      <button onClick={() => updateQuantity(item.id, (item.quantity || 1) - 1)}>-</button>
                       <span>{item.quantity || 1}</span>
-                      <button
-                        className="btn btn-outline-secondary btn-sm"
-                        onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}
-                      >
-                        +
-                      </button>
+                      <button onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}>+</button>
                     </div>
-                    <button className="btn btn-danger" onClick={() => removeFromCart(item.id)}>
-                      Remove
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="total-section">
-            <h3>Total: {totalPrice.toLocaleString()} VND</h3>
-            <button className="btn btn-primary" onClick={handleCheckout}>
-              Checkout
-            </button>
+                  </td>
+                  <td className="price">
+                    {(item.price * (item.quantity || 1)).toLocaleString()} VND
+                  </td>
+                  <td>
+                    <button className="remove-btn" onClick={() => removeFromCart(item.id)}>Xóa</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <div className="cart-footer">
+            <h3>Tổng: {totalPrice.toLocaleString()} VND</h3>
+            <button className="checkout-btn" onClick={handleCheckout}>Thanh Toán</button>
           </div>
         </>
       )}

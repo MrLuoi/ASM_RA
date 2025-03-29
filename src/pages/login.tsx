@@ -1,8 +1,8 @@
-import { Form, Input, Button, Card, message } from "antd";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import { useForm } from "react-hook-form";
 
 interface ILogin {
   email: string;
@@ -16,6 +16,11 @@ interface IUser {
 
 function Login() {
   const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<ILogin>();
 
   const loginMutation = useMutation({
     mutationFn: async (userData: ILogin) => {
@@ -24,58 +29,63 @@ function Login() {
     },
     onSuccess: (data) => {
       const token = data.accessToken;
-      const user: IUser = data.user || { username: "Khách", role: "user" }; 
+      const user: IUser = data.user || { username: "Khách", role: "user" };
 
       if (token) {
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
         toast.success("✅ Đăng nhập thành công!");
 
-        // Điều hướng theo role
-        if (user.role === "admin") {
-          navigate("/admin/list");
-        } else {
-          navigate("/");
-        }
-
-        window.location.reload(); 
+        navigate(user.role === "admin" ? "/admin/list" : "/");
+        window.location.reload();
       } else {
-        message.error("Không nhận được token từ server!");
+        toast.error("Không nhận được token từ server!");
       }
     },
     onError: (error: AxiosError) => {
-      const errorMessage = error.response?.data?.message || "Đăng nhập thất bại!";
-      message.error(errorMessage);
+      const errorMessage = (error.response?.data as any)?.message || "Đăng nhập thất bại!";
+      toast.error(errorMessage);
     },
   });
 
-  const onFinish = (values: ILogin) => {
+  const onSubmit = (values: ILogin) => {
     loginMutation.mutate(values);
   };
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-      <Card title="🔑 Đăng Nhập" style={{ width: 350 }}>
-        <Form layout="vertical" onFinish={onFinish}>
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[{ required: true, type: "email", message: "Vui lòng nhập email hợp lệ!" }]}
+    <div className="flex items-center justify-center h-screen">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h2 className="text-2xl font-bold text-center mb-4">🔑 Đăng Nhập</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label className="block font-medium">Email</label>
+            <input
+              type="email"
+              {...register("email", { required: "Vui lòng nhập email hợp lệ!" })}
+              className="w-full border p-2 rounded"
+            />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+          </div>
+
+          <div>
+            <label className="block font-medium">Mật khẩu</label>
+            <input
+              type="password"
+              {...register("password", { required: "Vui lòng nhập mật khẩu!" })}
+              className="w-full border p-2 rounded"
+            />
+            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 disabled:opacity-50"
+            disabled={loginMutation.isPending}
           >
-            <Input />
-          </Form.Item>
-          <Form.Item
-            label="Mật khẩu"
-            name="password"
-            rules={[{ required: true, message: "Vui lòng nhập mật khẩu!" }]}
-          >
-            <Input.Password />
-          </Form.Item>
-          <Button type="primary" htmlType="submit" block loading={loginMutation.isPending}>
-            Đăng Nhập
-          </Button>
-        </Form>
-      </Card>
+            {loginMutation.isPending ? "Đang xử lý..." : "Đăng Nhập"}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

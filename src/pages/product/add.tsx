@@ -1,61 +1,72 @@
-import { Form, Input, Button, Select, message } from "antd";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-const { Option } = Select;
+import { useForm } from "react-hook-form";
+import "./add.css"; // Import CSS thuần
 
 const categories = ["Điện thoại", "Laptop", "Máy tính bảng", "Phụ kiện"];
 
 function ProductAdd() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
+  const { register, handleSubmit } = useForm();
 
   const addProductMutation = useMutation({
     mutationFn: async (newProduct: any) => {
       await axios.post("http://localhost:3000/products", newProduct);
     },
     onSuccess: () => {
-      message.success("Thêm sản phẩm thành công!");
+      alert("Thêm sản phẩm thành công!");
       queryClient.invalidateQueries({ queryKey: ["products"] });
       navigate("/");
     },
     onError: () => {
-      message.error("Thêm sản phẩm thất bại!");
+      alert("Thêm sản phẩm thất bại!");
     },
   });
 
-  const onFinish = (values: any) => {
+  const onSubmit = (values: any) => {
     addProductMutation.mutate(values);
   };
 
   return (
-    <div>
-      <h1>Thêm sản phẩm</h1>
-      <Form layout="vertical" onFinish={onFinish}>
-        <Form.Item label="Tên sản phẩm" name="name" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item label="Mô tả" name="description" rules={[{ required: true }]}>
-          <Input.TextArea />
-        </Form.Item>
-        <Form.Item label="Hình ảnh" name="image" rules={[{ required: true }]}>
-          <Input />
-        </Form.Item>
-        <Form.Item label="Giá" name="price" rules={[{ required: true }]}>
-          <Input type="number" />
-        </Form.Item>
-        <Form.Item label="Danh mục" name="category" rules={[{ required: true }]}>
-          <Select placeholder="Chọn danh mục">
+    <div className="product-add-container">
+      <h1 className="title">Thêm sản phẩm</h1>
+      <form onSubmit={handleSubmit(onSubmit)} className="form">
+        <div className="form-group">
+          <label className="label">Tên sản phẩm</label>
+          <input type="text" {...register("name", { required: true })} className="input" />
+        </div>
+
+        <div className="form-group">
+          <label className="label">Mô tả</label>
+          <textarea {...register("description", { required: true })} className="textarea"></textarea>
+        </div>
+
+        <div className="form-group">
+          <label className="label">Hình ảnh</label>
+          <input type="text" {...register("image", { required: true })} className="input" />
+        </div>
+
+        <div className="form-group">
+          <label className="label">Giá</label>
+          <input type="number" {...register("price", { required: true })} className="input" />
+        </div>
+
+        <div className="form-group">
+          <label className="label">Danh mục</label>
+          <select {...register("category", { required: true })} className="select">
+            <option value="">Chọn danh mục</option>
             {categories.map((cat) => (
-              <Option key={cat} value={cat}>
+              <option key={cat} value={cat}>
                 {cat}
-              </Option>
+              </option>
             ))}
-          </Select>
-        </Form.Item>
-        <Button type="primary" htmlType="submit">Thêm</Button>
-      </Form>
+          </select>
+        </div>
+
+        <button type="submit" className="submit-btn">Thêm</button>
+      </form>
     </div>
   );
 }

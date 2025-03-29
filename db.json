@@ -159,6 +159,14 @@
       "image": "https://cdn2.cellphones.com.vn/x/media/catalog/product/p/i/pin-du-phong-anker-powercore-plus-power-delivery-a-1375.jpg",
       "price": 1890000,
       "category": "Phụ kiện"
+    },
+    {
+      "name": "update",
+      "description": "update",
+      "image": "undefined",
+      "price": "23435",
+      "category": "Phụ kiện",
+      "id": 21
     }
   ],
   "users": [
@@ -216,6 +224,13 @@
       "username": "manhznadmin",
       "role": "admin",
       "id": 9
+    },
+    {
+      "email": "admin@gmail.com",
+      "password": "$2a$10$naGSvRvMl5sDqqAC07BmFuv2obBKGeCd6IILd.pY6yIzhpRVWmWXm",
+      "username": "admin",
+      "role": "admin",
+      "id": 10
     }
   ],
   "orders": [

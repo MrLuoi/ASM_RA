@@ -10,7 +10,7 @@ const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <CartProvider> {/* Thêm CartProvider vào đây */}
+      <CartProvider>
         <BrowserRouter>
           <App />
         </BrowserRouter>
