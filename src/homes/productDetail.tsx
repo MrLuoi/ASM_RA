@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useCart } from "../cart/CartContext";
-import "./productDetail.css"
+import "./productDetail.css";
+
 export default function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState<any>(null);
@@ -53,7 +54,6 @@ export default function ProductDetail() {
     if (product) {
       addToCart(product);
       alert(`Thêm vào giỏ hàng thành công`);
-     
     }
   };
 
