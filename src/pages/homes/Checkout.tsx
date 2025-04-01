@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { useCart } from "../../cart/CartContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 const Checkout: React.FC = () => {
   const { cartItems, clearCart } = useCart();
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Kiểm tra có sản phẩm "Mua ngay" không
+  const buyNowProduct = location.state?.buyNowProduct || null;
+  const productsToCheckout = buyNowProduct ? [buyNowProduct] : cartItems;
 
   const [customer, setCustomer] = useState({
     name: "",
@@ -14,7 +19,7 @@ const Checkout: React.FC = () => {
     paymentMethod: "cash",
   });
 
-  const totalPrice = cartItems.reduce(
+  const totalPrice = productsToCheckout.reduce(
     (total, item) => total + item.price * (item.quantity || 1),
     0
   );
@@ -35,7 +40,7 @@ const Checkout: React.FC = () => {
       phone: customer.phone,
       paymentMethod: customer.paymentMethod,
       totalPrice,
-      products: cartItems.map((item) => ({
+      products: productsToCheckout.map((item) => ({
         name: item.name,
         price: item.price,
         quantity: item.quantity || 1,
@@ -45,7 +50,12 @@ const Checkout: React.FC = () => {
     try {
       await axios.post("http://localhost:3000/orders", orderData);
       alert("Đơn hàng của bạn đã được đặt thành công!");
-      clearCart();
+      
+      // Chỉ xóa giỏ hàng nếu đặt hàng từ giỏ hàng
+      if (!buyNowProduct) {
+        clearCart();
+      }
+
       navigate("/");
     } catch (error) {
       console.error("Lỗi khi đặt hàng:", error);
@@ -94,7 +104,7 @@ const Checkout: React.FC = () => {
 
         <h3>Đơn hàng</h3>
         <ul>
-          {cartItems.map((item) => (
+          {productsToCheckout.map((item) => (
             <li key={item.id}>
               {item.name} - {item.quantity || 1} x {item.price.toLocaleString()} VND
             </li>

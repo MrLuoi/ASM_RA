@@ -57,6 +57,12 @@ export default function ProductDetail() {
     }
   };
 
+  const handleBuyNow = () => {
+    if (product) {
+      navigate("/checkout", { state: { buyNowProduct: product } });
+    }
+  };
+
   if (!product) return <p>Đang tải...</p>;
 
   return (
@@ -67,7 +73,7 @@ export default function ProductDetail() {
           <h1>{product.name}</h1>
           <p className="product-price">{product.price.toLocaleString()} VND</p>
           <p className="product-description">{product.description}</p>
-          <button className="buy-button">Mua ngay</button>
+          <button className="buy-button" onClick={handleBuyNow}>Mua ngay</button>
           <button className="add-to-cart-button" onClick={handleAddToCart}>
             Thêm giỏ hàng
           </button>
