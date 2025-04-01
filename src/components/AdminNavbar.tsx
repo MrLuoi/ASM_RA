@@ -14,6 +14,7 @@ export default function AdminNavbar() {
     };
 
     checkLoginStatus();
+
     window.addEventListener("storage", checkLoginStatus);
 
     return () => {
@@ -25,31 +26,40 @@ export default function AdminNavbar() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setIsLoggedIn(false);
-    navigate("/login");
+    navigate("/login"); // Chuyển hướng về trang login khi đăng xuất
   };
 
+  if (!isLoggedIn) {
+    return null; // Không render AdminNavbar nếu chưa đăng nhập
+  }
+
   return (
-    <nav className="navbar admin-navbar">
-      <div className="logo">
-        <Link to="/admin/dashboard">Admin Panel</Link>
-      </div>
-
-      <ul className="nav-links">
-        <li><Link to="/admin/dashboard">Dashboard</Link></li>
-        <li><Link to="/admin/list">Quản lý Sản phẩm</Link></li>
-        <li><Link to="/admin/orders">Quản lý Đơn hàng</Link></li>
-        <li><Link to="/admin/users">Quản lý Người dùng</Link></li>
-      </ul>
-
-      <div className="auth-links">
-        {isLoggedIn ? (
-          <div className="user-info">
-            <span>Xin chào, {username}!</span>
-            <button onClick={handleLogout} className="btn btn-danger">Đăng xuất</button>
-          </div>
-        ) : (
-          <Link to="/login" className="login">Đăng nhập</Link>
-        )}
+    <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div className="container-fluid">
+        <Link to="/admin/dashboard" className="navbar-brand">Admin Panel</Link>
+        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav ms-auto">
+            <li className="nav-item">
+              <Link to="/admin/dashboard" className="nav-link active" aria-current="page">Dashboard</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/admin/list" className="nav-link">Quản lý Sản phẩm</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/admin/orders" className="nav-link">Quản lý Đơn hàng</Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/admin/users" className="nav-link">Quản lý Người dùng</Link>
+            </li>
+          </ul>
+        </div>
+        <div className="d-flex align-items-center">
+          <span className="text-white me-2">Xin chào, {username}!</span>
+          <button onClick={handleLogout} className="btn btn-outline-light">Đăng xuất</button>
+        </div>
       </div>
     </nav>
   );

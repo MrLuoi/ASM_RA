@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"; // Thêm useNavigate để chuyển hướng người dùng
 import "./UserManagement.css"; // style tùy bạn
 
 interface User {
@@ -11,6 +12,7 @@ interface User {
 
 export default function UserManagement() {
   const [users, setUsers] = useState<User[]>([]);
+  const navigate = useNavigate(); // Hook để chuyển hướng
 
   useEffect(() => {
     fetchUsers();
@@ -26,11 +28,23 @@ export default function UserManagement() {
   };
 
   const deleteUser = async (id: number) => {
+    // Kiểm tra xem người dùng đã đăng nhập hay chưa
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
+      alert("Bạn cần đăng nhập để xóa người dùng.");
+      navigate("/login"); // Chuyển hướng đến trang login
+      return;
+    }
+
+    // Nếu đã đăng nhập, yêu cầu xác nhận trước khi xóa
     if (!window.confirm("Bạn có chắc muốn xoá người dùng này không?")) return;
+
     try {
       await axios.delete(`http://localhost:3000/users/${id}`);
       setUsers(users.filter((user) => user.id !== id));
-      alert("Xóa user thành công")
+      alert("Xóa user thành công");
     } catch (error) {
       console.error("Lỗi khi xoá người dùng:", error);
     }
@@ -57,7 +71,12 @@ export default function UserManagement() {
               <td>{user.email}</td>
               <td>{user.role || "user"}</td>
               <td>
-                <button onClick={() => deleteUser(user.id)} className="btn btn-danger">Xoá</button>
+                <button
+                  onClick={() => deleteUser(user.id)}
+                  className="btn btn-danger"
+                >
+                  Xoá
+                </button>
               </td>
             </tr>
           ))}

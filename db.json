@@ -1,46 +1,6 @@
 {
   "products": [
     {
-      "id": 1,
-      "name": "iPhone 15 Pro",
-      "description": "Flagship mới nhất từ Apple.",
-      "image": "https://bachlongstore.vn/vnt_upload/product/10_2023/iii.png",
-      "price": 29990000,
-      "category": "Điện thoại"
-    },
-    {
-      "id": 2,
-      "name": "Samsung Galaxy S23 Ultra",
-      "description": "Điện thoại cao cấp từ Samsung.",
-      "image": "https://images.samsung.com/vn/smartphones/galaxy-s23-ultra/buy/kv_group_MO_v2.jpg",
-      "price": 27990000,
-      "category": "Điện thoại"
-    },
-    {
-      "id": 3,
-      "name": "Google Pixel 7 Pro",
-      "description": "Chiếc flagship Android với camera xuất sắc.",
-      "image": "https://cdn.tgdd.vn/Files/2022/10/22/1480795/24_1280x820-800-resize.jpg",
-      "price": 24990000,
-      "category": "Điện thoại"
-    },
-    {
-      "id": 4,
-      "name": "OnePlus 11",
-      "description": "Điện thoại mạnh mẽ với sạc nhanh 100W.",
-      "image": "https://oasis.opstatics.com/content/dam/oasis/page/2023/na/oneplus-11/specs/green-img.png",
-      "price": 19990000,
-      "category": "Điện thoại"
-    },
-    {
-      "id": 5,
-      "name": "Xiaomi 13 Pro",
-      "description": "Smartphone Xiaomi cao cấp với camera Leica.",
-      "image": "https://genk.mediacdn.vn/139269124445442048/2022/12/11/gsmarena001-1670765914061-1670765914124688342281-1670767372156-1670767372466797992245.jpg",
-      "price": 18990000,
-      "category": "Điện thoại"
-    },
-    {
       "id": 6,
       "name": "MacBook Air M2",
       "description": "Laptop mỏng nhẹ với chip M2 mạnh mẽ.",
@@ -49,12 +9,12 @@
       "category": "Laptop"
     },
     {
-      "id": 7,
       "name": "Dell XPS 13",
       "description": "Laptop Windows cao cấp, màn hình OLED.",
       "image": "https://bizweb.dktcdn.net/thumb/large/100/362/971/products/9340-436f5cf1-7ccb-4021-864d-1fc9a63ab917-f4bfc531-9b20-4370-a35d-d7d0b710df7c.jpg?v=1726479804040",
       "price": 25990000,
-      "category": "Laptop"
+      "category": "Laptop",
+      "id": 7
     },
     {
       "id": 8,
@@ -313,7 +273,17 @@
     },
     {
       "userId": 9,
-      "items": [],
+      "items": [
+        {
+          "id": 2,
+          "name": "Samsung Galaxy S23 Ultra",
+          "description": "Điện thoại cao cấp từ Samsung.",
+          "image": "https://images.samsung.com/vn/smartphones/galaxy-s23-ultra/buy/kv_group_MO_v2.jpg",
+          "price": 27990000,
+          "category": "Điện thoại",
+          "quantity": 2
+        }
+      ],
       "id": 2
     }
   ]

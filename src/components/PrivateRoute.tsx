@@ -1,13 +1,15 @@
+import React from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
-const PrivateRoute = ({ role }: { role: "admin" | "user" }) => {
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+// Kiểm tra nếu người dùng đã đăng nhập
+const PrivateRoute = () => {
+  const isLoggedIn = !!localStorage.getItem("token"); // Kiểm tra token trong localStorage
 
-  if (!user || !user.role) {
-    return <Navigate to="/login" />;
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
   }
 
-  return user.role === role ? <Outlet /> : <Navigate to="/" />;
+  return <Outlet />;
 };
 
 export default PrivateRoute;
