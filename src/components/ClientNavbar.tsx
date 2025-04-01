@@ -1,8 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useCart } from "../cart/CartContext"; // ⚠️ Đảm bảo đúng đường dẫn
 import "./Navbar.css";
 
-// Định nghĩa interface cho user
+// Interface người dùng
 interface User {
   username?: string;
   name?: string;
@@ -11,11 +12,13 @@ interface User {
 
 export default function ClientNavbar() {
   const navigate = useNavigate();
+  const { clearCart } = useCart(); // ✅ Dùng để reset cart UI khi logout
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!localStorage.getItem("token"));
   const user: User = JSON.parse(localStorage.getItem("user") || "{}");
   const username: string = user.username || user.name || "Khách";
   const isAdmin: boolean = user.role === "admin";
 
+  // Đồng bộ trạng thái login khi localStorage thay đổi
   useEffect(() => {
     const checkLoginStatus = () => {
       setIsLoggedIn(!!localStorage.getItem("token"));
@@ -23,20 +26,21 @@ export default function ClientNavbar() {
 
     checkLoginStatus();
     window.addEventListener("storage", checkLoginStatus);
-
     return () => {
       window.removeEventListener("storage", checkLoginStatus);
     };
   }, []);
 
+  // ✅ Đăng xuất: xóa token + user + reset giỏ hàng UI
   const handleLogout = (): void => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    setIsLoggedIn(false);
-    navigate("/login");
+    clearCart();               // ✅ Chỉ ẩn giỏ hàng UI, không xoá backend
+    setIsLoggedIn(false);      // ✅ Cập nhật lại giao diện
+    navigate("/login");        // ✅ Điều hướng về trang đăng nhập
   };
 
-  // Xử lý điều hướng đến trang quản trị
+  // Xử lý điều hướng trang quản trị
   const handleAdminAccess = (e: React.MouseEvent<HTMLAnchorElement>): void => {
     e.preventDefault();
     if (isAdmin) {
@@ -76,12 +80,8 @@ export default function ClientNavbar() {
           </div>
         ) : (
           <>
-            <Link to="/login" className="login">
-              Đăng nhập
-            </Link>
-            <Link to="/register" className="register">
-              Đăng ký
-            </Link>
+            <Link to="/login" className="login">Đăng nhập</Link>
+            <Link to="/register" className="register">Đăng ký</Link>
           </>
         )}
       </div>

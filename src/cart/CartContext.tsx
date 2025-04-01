@@ -1,64 +1,104 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import axios from "axios";
 
-// Định nghĩa interface cho sản phẩm
+const BASE_URL = "http://localhost:3000"; // Đổi nếu json-server dùng cổng khác
+
+// Interface sản phẩm
 interface Product {
   id: string;
   name: string;
-  description: string;
-  image: string;
   price: number;
-  category: number;
   quantity?: number;
 }
 
-// Định nghĩa interface cho context
+// Interface cho context
 interface CartContextType {
   cartItems: Product[];
   addToCart: (product: Product) => void;
   removeFromCart: (id: string) => void;
   updateQuantity: (id: string, quantity: number) => void;
-  clearCart: () => void; // Thêm clearCart
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
-  // Lấy userId từ localStorage
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
-  const userId = user.id || "guest";
+  const [userId, setUserId] = useState<number | null>(null);
+  const [cartItems, setCartItems] = useState<Product[]>([]);
 
-  // Khởi tạo cart từ localStorage dựa trên userId
-  const [cartItems, setCartItems] = useState<Product[]>(() => {
-    const savedCart = localStorage.getItem(`cart_${userId}`);
-    return savedCart ? JSON.parse(savedCart) : [];
-  });
-
-  // Lưu cart vào localStorage mỗi khi cartItems hoặc userId thay đổi
+  // 1️⃣ Khi app khởi động: lấy userId từ localStorage nếu có
   useEffect(() => {
-    localStorage.setItem(`cart_${userId}`, JSON.stringify(cartItems));
-  }, [cartItems, userId]);
+    const storedUser = JSON.parse(localStorage.getItem("user") || "{}");
+    const token = localStorage.getItem("token");
+    if (storedUser.id && token) {
+      setUserId(storedUser.id);
+    } else {
+      setUserId(null);
+    }
+  }, []);
 
-  // Cập nhật cart khi userId thay đổi (đăng nhập/đăng xuất)
+  // 2️⃣ Lắng nghe thay đổi localStorage hoặc khi user đăng nhập lại
   useEffect(() => {
-    const handleStorageChange = () => {
-      const updatedUser = JSON.parse(localStorage.getItem("user") || "{}");
-      const updatedUserId = updatedUser.id || "guest";
-      const savedCart = localStorage.getItem(`cart_${updatedUserId}`);
-      setCartItems(savedCart ? JSON.parse(savedCart) : []);
+    const syncUserId = () => {
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      const token = localStorage.getItem("token");
+      setUserId(user.id && token ? user.id : null);
     };
 
-    window.addEventListener("storage", handleStorageChange);
-    handleStorageChange();
+    window.addEventListener("storage", syncUserId); // từ tab khác
+    window.addEventListener("focus", syncUserId);   // khi reload hoặc quay lại tab
 
     return () => {
-      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("storage", syncUserId);
+      window.removeEventListener("focus", syncUserId);
     };
   }, []);
 
+  // 3️⃣ Lấy giỏ hàng từ backend khi userId thay đổi
+  useEffect(() => {
+    if (userId === null) return;
+
+    const fetchCart = async () => {
+      try {
+        const response = await axios.get(`${BASE_URL}/cart?userId=${userId}`);
+        if (response.data.length > 0) {
+          setCartItems(response.data[0].items || []);
+        } else {
+          await axios.post(`${BASE_URL}/cart`, { userId, items: [] });
+          setCartItems([]);
+        }
+      } catch (error) {
+        console.error("Lỗi khi lấy giỏ hàng:", error);
+      }
+    };
+
+    fetchCart();
+  }, [userId]);
+
+  // 4️⃣ Cập nhật giỏ hàng backend khi giỏ hàng thay đổi
+  useEffect(() => {
+    const updateCart = async () => {
+      if (userId) {
+        try {
+          const response = await axios.get(`${BASE_URL}/cart?userId=${userId}`);
+          if (response.data.length > 0) {
+            const cartId = response.data[0].id;
+            await axios.patch(`${BASE_URL}/cart/${cartId}`, { items: cartItems });
+          }
+        } catch (error) {
+          console.error("Lỗi khi cập nhật giỏ hàng:", error);
+        }
+      }
+    };
+
+    updateCart();
+  }, [cartItems, userId]);
+
+  // Các thao tác với giỏ hàng
   const addToCart = (product: Product) => {
     setCartItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item.id === product.id);
-      if (existingItem) {
+      const existing = prevItems.find((item) => item.id === product.id);
+      if (existing) {
         return prevItems.map((item) =>
           item.id === product.id
             ? { ...item, quantity: (item.quantity || 1) + 1 }
@@ -85,10 +125,10 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // Hàm xóa toàn bộ giỏ hàng
+  // ❗ Chỉ ẩn giỏ hàng khi logout (không xoá backend)
   const clearCart = () => {
     setCartItems([]);
-    localStorage.removeItem(`cart_${userId}`); // Xóa giỏ hàng khỏi localStorage
+    setUserId(null);
   };
 
   return (
@@ -100,10 +140,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// Hook để sử dụng CartContext
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error("useCart must be used within a CartProvider");
+    throw new Error("useCart phải được dùng trong CartProvider");
   }
   return context;
 };
