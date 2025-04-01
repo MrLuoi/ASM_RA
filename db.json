@@ -171,24 +171,6 @@
   ],
   "users": [
     {
-      "email": "man222h9102022205@gmail.com",
-      "password": "$2a$10$vklclr/koyv10QAuVTgnBeBJo.sAxHbl6SXJg/9EpE9rqDfgm7Jiy",
-      "username": "manh22zn",
-      "id": 1
-    },
-    {
-      "email": "manh9102005@gmail.com",
-      "password": "$2a$10$UHYMJogg/pQEbEAxPASHe.B8roR3Uyp.1ynAB8X6/u.1RzVgozN7y",
-      "username": "manh22zn",
-      "id": 2
-    },
-    {
-      "email": "manh910232322005@gmail.com",
-      "password": "$2a$10$d/hGZo08.bBU2KQT6vagUOAJweqlYCljR8EcyYYrB50xbApOQx9FO",
-      "username": "manh22zn33",
-      "id": 3
-    },
-    {
       "email": "abc@gmail.com",
       "password": "$2a$10$uxx/m/QhIcgf0xT6jVNaW.WdklmJoo/3uc4ayzLX/BjJajthS9vKW",
       "username": "abc@gmail.com",
@@ -275,26 +257,12 @@
     {
       "id": 1,
       "userId": 8,
-      "items": [
-        {
-          "id": 2,
-          "name": "Samsung Galaxy S23 Ultra",
-          "description": "Điện thoại cao cấp từ Samsung.",
-          "image": "https://images.samsung.com/vn/smartphones/galaxy-s23-ultra/buy/kv_group_MO_v2.jpg",
-          "price": 27990000,
-          "category": "Điện thoại",
-          "quantity": 2
-        },
-        {
-          "id": 6,
-          "name": "MacBook Air M2",
-          "description": "Laptop mỏng nhẹ với chip M2 mạnh mẽ.",
-          "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC8CkKqS9MRuDff7BsgVHJqaLEU7_MGA5yaw&s",
-          "price": 28990000,
-          "category": "Laptop",
-          "quantity": 1
-        }
-      ]
+      "items": []
+    },
+    {
+      "userId": 9,
+      "items": [],
+      "id": 2
     }
   ]
 }

@@ -15,6 +15,7 @@ import ClientNavbar from "./components/ClientNavbar";
 import AdminNavbar from "./components/AdminNavbar";
 import Cart from "./pages/homes/Cart";
 import Checkout from "./pages/homes/Checkout";
+import UserManagement from "./components/UserManagement";
 
 function App() {
   const location = useLocation();
@@ -28,6 +29,9 @@ function App() {
         <Route path="admin/add" element={<ProductAdd />} />
         <Route path="admin/edit/:id" element={<ProductEdit />} />
         <Route path="admin/statis" element={<Statistics />} />
+        <Route path="/admin/users" element={<UserManagement />} />
+
+
 
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
@@ -37,6 +41,7 @@ function App() {
 
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        
       </Routes>
       <Toaster />
     </>
