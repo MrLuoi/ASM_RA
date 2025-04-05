@@ -313,13 +313,13 @@
       "userId": 8,
       "items": [
         {
-          "id": 2,
-          "name": "Samsung Galaxy S23 Ultra",
-          "description": "Điện thoại cao cấp từ Samsung.",
-          "image": "https://images.samsung.com/vn/smartphones/galaxy-s23-ultra/buy/kv_group_MO_v2.jpg",
-          "price": 27990000,
-          "category": "Điện thoại",
-          "quantity": 2
+          "id": 7,
+          "name": "Dell XPS 13",
+          "description": "Laptop Windows cao cấp, màn hình OLED.",
+          "image": "https://bizweb.dktcdn.net/thumb/large/100/362/971/products/9340-436f5cf1-7ccb-4021-864d-1fc9a63ab917-f4bfc531-9b20-4370-a35d-d7d0b710df7c.jpg?v=1726479804040",
+          "price": 25990000,
+          "category": "Laptop",
+          "quantity": 8
         }
       ]
     },
@@ -327,13 +327,13 @@
       "userId": 9,
       "items": [
         {
-          "id": 2,
-          "name": "Samsung Galaxy S23 Ultra",
-          "description": "Điện thoại cao cấp từ Samsung.",
-          "image": "https://images.samsung.com/vn/smartphones/galaxy-s23-ultra/buy/kv_group_MO_v2.jpg",
-          "price": 27990000,
-          "category": "Điện thoại",
-          "quantity": 2
+          "id": 7,
+          "name": "Dell XPS 13",
+          "description": "Laptop Windows cao cấp, màn hình OLED.",
+          "image": "https://bizweb.dktcdn.net/thumb/large/100/362/971/products/9340-436f5cf1-7ccb-4021-864d-1fc9a63ab917-f4bfc531-9b20-4370-a35d-d7d0b710df7c.jpg?v=1726479804040",
+          "price": 25990000,
+          "category": "Laptop",
+          "quantity": 3
         }
       ],
       "id": 2
