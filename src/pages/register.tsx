@@ -9,7 +9,6 @@ interface IRegister {
   email: string;
   password: string;
   confirmPassword?: string;
-  role?: "user" | "admin";
 }
 
 function Register() {
@@ -36,7 +35,7 @@ function Register() {
 
   const onSubmit = (values: IRegister) => {
     const { confirmPassword, ...userData } = values;
-    registerMutation.mutate({ ...userData, role: userData.role || "user" });
+    registerMutation.mutate({ ...userData, role: "user" });  // Mặc định vai trò là "user"
   };
 
   return (
@@ -86,17 +85,8 @@ function Register() {
             {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
           </div>
 
-          <div>
-            <label className="block font-medium">Vai trò</label>
-            <select
-              {...register("role")}
-              className="w-full border p-2 rounded"
-            >
-              <option value="user">Người dùng</option>
-              <option value="admin">Quản trị viên</option>
-            </select>
-          </div>
-
+          {/* Đã xóa phần đăng ký vai trò */}
+          
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"

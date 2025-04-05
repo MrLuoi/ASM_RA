@@ -16,6 +16,7 @@ import PrivateRoute from "./components/PrivateRoute"; // Import PrivateRoute
 import { Toaster } from "react-hot-toast";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import NotAuthorized from "./pages/NotAuthorized ";
 
 function App() {
   const location = useLocation();
@@ -34,6 +35,7 @@ function App() {
           <Route path="admin/edit/:id" element={<ProductEdit />} />
           <Route path="admin/statis" element={<Statistics />} />
           <Route path="/admin/users" element={<UserManagement />} />
+          <Route path="/not-authorized" element={<NotAuthorized />} />
         </Route>
 
         {/* Routes cho người dùng */}

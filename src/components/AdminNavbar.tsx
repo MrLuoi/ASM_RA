@@ -5,24 +5,60 @@ import "./Navbar.css";
 export default function AdminNavbar() {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const getUserData = () => {
+    try {
+      return JSON.parse(localStorage.getItem("user") || "{}");
+    } catch (e) {
+      console.error("Error parsing user data:", e);
+      return {};
+    }
+  };
+
+  const user = getUserData();
   const username = user.username || user.name || "Admin";
-  const userRole = user.role || ""; // Giả sử role được lưu trữ trong thông tin người dùng
 
   useEffect(() => {
     const checkLoginStatus = () => {
       const token = localStorage.getItem("token");
-      const role = localStorage.getItem("role");
+      const storedRole = localStorage.getItem("role");
+      const userData = getUserData();
 
-      if (!token || role !== "admin") {
-        navigate("/login"); // Chuyển hướng về trang login nếu không phải admin hoặc không đăng nhập
+      console.log("Checking login status...");
+      console.log("Token in LocalStorage:", token);
+      console.log("Role in LocalStorage:", storedRole);
+      console.log("User data:", userData);
+
+      if (!token) {
+        setIsLoggedIn(false);
+        navigate("/login");
+        return;
+      }
+
+      // Check role from userData first, then storedRole, then JWT
+      let userRole = userData.role || storedRole;
+      if (!userRole && token) {
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          userRole = payload.role || (payload.isAdmin ? "admin" : "user");
+        } catch (e) {
+          console.error("Error decoding token:", e);
+        }
+      }
+
+      if (userRole === "admin") {
+        setIsAdmin(true);
+        setIsLoggedIn(true);
       } else {
-        setIsLoggedIn(true); // Nếu là admin và đã đăng nhập
+        console.warn("Access denied - Not an admin role:", userRole);
+        setIsAdmin(false);
+        setIsLoggedIn(true);
+        navigate("/");
       }
     };
 
     checkLoginStatus();
-
     window.addEventListener("storage", checkLoginStatus);
 
     return () => {
@@ -33,24 +69,36 @@ export default function AdminNavbar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
-    localStorage.removeItem("role"); // Xóa role khi đăng xuất
+    localStorage.removeItem("role");
     setIsLoggedIn(false);
-    navigate("/login"); // Chuyển hướng về trang login khi đăng xuất
+    setIsAdmin(false);
+    navigate("/login");
   };
 
-  if (!isLoggedIn) {
-    return null; // Không render AdminNavbar nếu chưa đăng nhập hoặc không phải admin
+  if (!isLoggedIn || !isAdmin) {
+    return null;
   }
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
       <div className="container-fluid">
         <Link to="/admin/dashboard" className="navbar-brand">Admin Panel</Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button 
+          className="navbar-toggler" 
+          type="button" 
+          data-bs-toggle="collapse" 
+          data-bs-target="#navbarNav" 
+          aria-controls="navbarNav" 
+          aria-expanded="false" 
+          aria-label="Toggle navigation"
+        >
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
+          <li className="nav-item">
+              <Link to="" className="nav-link active" aria-current="page">Trang chủ </Link>
+            </li>
             <li className="nav-item">
               <Link to="/admin/dashboard" className="nav-link active" aria-current="page">Dashboard</Link>
             </li>

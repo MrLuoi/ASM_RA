@@ -155,6 +155,13 @@
       "username": "admin",
       "role": "admin",
       "id": 10
+    },
+    {
+      "email": "manhhvph51306@gmail.com",
+      "password": "$2a$10$vw/nwF4p6Uw83LIROyF7Ree33s82QSnrytWUdp6KDj1Nlc3d6lJbu",
+      "username": "Mạnh",
+      "role": "user",
+      "id": 11
     }
   ],
   "orders": [
@@ -273,18 +280,13 @@
     },
     {
       "userId": 9,
-      "items": [
-        {
-          "id": 2,
-          "name": "Samsung Galaxy S23 Ultra",
-          "description": "Điện thoại cao cấp từ Samsung.",
-          "image": "https://images.samsung.com/vn/smartphones/galaxy-s23-ultra/buy/kv_group_MO_v2.jpg",
-          "price": 27990000,
-          "category": "Điện thoại",
-          "quantity": 2
-        }
-      ],
+      "items": [],
       "id": 2
+    },
+    {
+      "userId": 11,
+      "items": [],
+      "id": 3
     }
   ]
 }
