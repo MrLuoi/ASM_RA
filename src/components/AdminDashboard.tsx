@@ -4,8 +4,9 @@ import "./AdminDashboard.css";
 
 export default function AdminDashboard() {
   const [userCount, setUserCount] = useState<number>(0);
-  const [productCount, setProductCount] = useState<number>(0); // Tổng số lượng thực
+  const [productCount, setProductCount] = useState<number>(0);
   const [orderCount, setOrderCount] = useState<number>(0);
+  const [soldOrderCount, setSoldOrderCount] = useState<number>(0);
   const [totalRevenue, setTotalRevenue] = useState<number>(0);
 
   useEffect(() => {
@@ -27,7 +28,11 @@ export default function AdminDashboard() {
           0
         );
 
-        const revenue = orders.reduce(
+        // Lọc đơn hàng đã bán (status === 'accepted')
+        const soldOrders = orders.filter((order: any) => order.status === "accepted");
+
+        // Tính doanh thu từ các đơn hàng đã bán
+        const revenue = soldOrders.reduce(
           (acc: number, order: any) => acc + (order.totalPrice || 0),
           0
         );
@@ -35,6 +40,7 @@ export default function AdminDashboard() {
         setUserCount(users.length);
         setProductCount(totalProductQuantity);
         setOrderCount(orders.length);
+        setSoldOrderCount(soldOrders.length);
         setTotalRevenue(revenue);
       } catch (err) {
         console.error("Lỗi khi tải dữ liệu:", err);
@@ -59,6 +65,10 @@ export default function AdminDashboard() {
         <div className="card">
           <h3>Tổng đơn hàng</h3>
           <p>{orderCount}</p>
+        </div>
+        <div className="card">
+          <h3>Đơn hàng đã bán</h3>
+          <p>{soldOrderCount}</p>
         </div>
         <div className="card">
           <h3>Doanh thu</h3>

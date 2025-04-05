@@ -1,18 +1,39 @@
 import { useCart } from "../../cart/CartContext";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"; // Import axios để gửi yêu cầu API
 import "./Cart.css"; // Import CSS thuần
 
 const Cart: React.FC = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
   const navigate = useNavigate();
 
+  // Tính tổng tiền giỏ hàng
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.price * (item.quantity || 1),
     0
   );
 
+  // Hàm xử lý khi nhấn nút "Thanh toán"
   const handleCheckout = () => {
     navigate("/checkout");
+  };
+
+  // Hàm xử lý cập nhật số lượng sản phẩm trong giỏ hàng và cơ sở dữ liệu
+  const handleUpdateQuantity = async (itemId: string, newQuantity: number) => {
+    if (newQuantity <= 0) return; // Không cho phép số lượng nhỏ hơn hoặc bằng 0
+
+    // Cập nhật giỏ hàng
+    updateQuantity(itemId, newQuantity);
+
+    try {
+      // Gửi yêu cầu PATCH đến API để cập nhật số lượng trong cơ sở dữ liệu
+      await axios.patch(`http://localhost:3000/products/${itemId}`, {
+        quantity: newQuantity,
+      });
+    } catch (error) {
+      console.error("Lỗi khi cập nhật số lượng sản phẩm:", error);
+      alert("Đã xảy ra lỗi khi cập nhật số lượng sản phẩm.");
+    }
   };
 
   return (
@@ -43,9 +64,9 @@ const Cart: React.FC = () => {
                   <td>{item.price.toLocaleString()} VND</td>
                   <td>
                     <div className="quantity-control">
-                      <button onClick={() => updateQuantity(item.id, (item.quantity || 1) - 1)}>-</button>
+                      <button onClick={() => handleUpdateQuantity(item.id, (item.quantity || 1) - 1)}>-</button>
                       <span>{item.quantity || 1}</span>
-                      <button onClick={() => updateQuantity(item.id, (item.quantity || 1) + 1)}>+</button>
+                      <button onClick={() => handleUpdateQuantity(item.id, (item.quantity || 1) + 1)}>+</button>
                     </div>
                   </td>
                   <td className="price">

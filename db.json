@@ -1,13 +1,58 @@
 {
   "products": [
     {
+      "id": 1,
+      "name": "iPhone 15 Pro",
+      "description": "Flagship mới nhất từ Apple.",
+      "image": "https://bachlongstore.vn/vnt_upload/product/10_2023/iii.png",
+      "price": 29990000,
+      "category": "Điện thoại",
+      "quantity": 9
+    },
+    {
+      "id": 2,
+      "name": "Samsung Galaxy S23 Ultra",
+      "description": "Điện thoại cao cấp từ Samsung.",
+      "image": "https://images.samsung.com/vn/smartphones/galaxy-s23-ultra/buy/kv_group_MO_v2.jpg",
+      "price": 27990000,
+      "category": "Điện thoại",
+      "quantity": 5
+    },
+    {
+      "id": 3,
+      "name": "Google Pixel 7 Pro",
+      "description": "Chiếc flagship Android với camera xuất sắc.",
+      "image": "https://cdn.tgdd.vn/Files/2022/10/22/1480795/24_1280x820-800-resize.jpg",
+      "price": 24990000,
+      "category": "Điện thoại",
+      "quantity": 3
+    },
+    {
+      "id": 4,
+      "name": "OnePlus 11",
+      "description": "Điện thoại mạnh mẽ với sạc nhanh 100W.",
+      "image": "https://oasis.opstatics.com/content/dam/oasis/page/2023/na/oneplus-11/specs/green-img.png",
+      "price": 19990000,
+      "category": "Điện thoại",
+      "quantity": 8
+    },
+    {
+      "id": 5,
+      "name": "Xiaomi 13 Pro",
+      "description": "Smartphone Xiaomi cao cấp với camera Leica.",
+      "image": "https://genk.mediacdn.vn/139269124445442048/2022/12/11/gsmarena001-1670765914061-1670765914124688342281-1670767372156-1670767372466797992245.jpg",
+      "price": 18990000,
+      "category": "Điện thoại",
+      "quantity": 7
+    },
+    {
       "id": 6,
       "name": "MacBook Air M2",
       "description": "Laptop mỏng nhẹ với chip M2 mạnh mẽ.",
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC8CkKqS9MRuDff7BsgVHJqaLEU7_MGA5yaw&s",
       "price": 28990000,
       "category": "Laptop",
-      "quantity": 10
+      "quantity": 4
     },
     {
       "id": 7,
@@ -16,7 +61,7 @@
       "image": "https://bizweb.dktcdn.net/thumb/large/100/362/971/products/9340-436f5cf1-7ccb-4021-864d-1fc9a63ab917-f4bfc531-9b20-4370-a35d-d7d0b710df7c.jpg?v=1726479804040",
       "price": 25990000,
       "category": "Laptop",
-      "quantity": 8
+      "quantity": 6
     },
     {
       "id": 8,
@@ -25,7 +70,7 @@
       "image": "https://vn.store.asus.com/media/catalog/product/cache/74e490e088db727ef90851ac50e1fa20/z/e/zephyrus_g14_grey_05_l_rgb_2.png",
       "price": 32990000,
       "category": "Laptop",
-      "quantity": 7
+      "quantity": 3
     },
     {
       "id": 9,
@@ -43,16 +88,16 @@
       "image": "https://ttcenter.com.vn/uploads/product/z8u5yvst-846-lenovo-legion-5-pro-y9000p-2021h-core-i7-11800h-ram-16gb-ssd-512gb-rtx-3060-16-2-5k-165hz-newo.png",
       "price": 32990000,
       "category": "Laptop",
-      "quantity": 6
+      "quantity": 2
     },
     {
       "id": 11,
       "name": "iPad Pro M2",
       "description": "Máy tính bảng mạnh mẽ nhất của Apple.",
-      "image": "https://product.hstatic.net/1000259254/product/ipad_pro_m2_11_inch_wi-fi_space_gray-1_a4acac801ea94bb9a4707984919b0370_grande.jpg",
+      "image": "https://product.hstatic.net/1000259254/product/ipad_pro_m2_11_inch_wi-fi-space_gray-1_a4acac801ea94bb9a4707984919b0370_grande.jpg",
       "price": 25990000,
       "category": "Máy tính bảng",
-      "quantity": 15
+      "quantity": 10
     },
     {
       "id": 12,
@@ -61,7 +106,7 @@
       "image": "https://i.ebayimg.com/images/g/ij0AAOSwF6Fkv3y6/s-l1200.jpg",
       "price": 8990000,
       "category": "Máy tính bảng",
-      "quantity": 20
+      "quantity": 15
     },
     {
       "id": 13,
@@ -70,7 +115,7 @@
       "image": "https://gohub.vn/wp-content/uploads/2023/08/617fF6iK4gL-1024x618.jpg",
       "price": 20990000,
       "category": "Máy tính bảng",
-      "quantity": 12
+      "quantity": 8
     },
     {
       "id": 14,
@@ -79,7 +124,7 @@
       "image": "https://i5.walmartimages.com/seo/Lenovo-Tab-P12-Pro-with-Pen-12-Tablet-128GB-Storage-6GB-Memory-Android-11-2K-Display_22b265e0-bbbe-43c6-856a-3d336d4dad16.5d9343b5017a2495990ab562fe707ee9.jpeg",
       "price": 15990000,
       "category": "Máy tính bảng",
-      "quantity": 13
+      "quantity": 6
     },
     {
       "id": 15,
@@ -88,7 +133,7 @@
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaVw5rXOE72Oiqvk5L9GjPHVFc4BQS5DgNAg&s",
       "price": 16990000,
       "category": "Máy tính bảng",
-      "quantity": 10
+      "quantity": 4
     },
     {
       "id": 16,
@@ -97,7 +142,7 @@
       "image": "https://dienmaytructuyen.vn/wp-content/uploads/2022/06/wh1000xm5.webp",
       "price": 9990000,
       "category": "Phụ kiện",
-      "quantity": 25
+      "quantity": 12
     },
     {
       "id": 17,
@@ -106,7 +151,7 @@
       "image": "https://cdn2.fptshop.com.vn/unsafe/564x0/filters:quality(80)/Uploads/images/2015/Tin-Tuc/DigitalMarketing/mo-ta-san-pham-apple-watch-series-9%20(5).jpg",
       "price": 11990000,
       "category": "Phụ kiện",
-      "quantity": 18
+      "quantity": 9
     },
     {
       "id": 18,
@@ -115,7 +160,7 @@
       "image": "https://ngocthiensup.com/wp-content/uploads/Logitech-MX-Master-3-for-Business-04.jpg",
       "price": 2990000,
       "category": "Phụ kiện",
-      "quantity": 30
+      "quantity": 5
     },
     {
       "id": 19,
@@ -124,7 +169,7 @@
       "image": "https://owlgaming.vn/wp-content/uploads/2024/07/Ban-phim-Razer-BlackWidow-V4-75-8.jpg",
       "price": 4490000,
       "category": "Phụ kiện",
-      "quantity": 22
+      "quantity": 10
     },
     {
       "id": 20,
@@ -133,16 +178,7 @@
       "image": "https://cdn2.cellphones.com.vn/x/media/catalog/product/p/i/pin-du-phong-anker-powercore-plus-power-delivery-a-1375.jpg",
       "price": 1890000,
       "category": "Phụ kiện",
-      "quantity": 35
-    },
-    {
-      "id": 21,
-      "name": "update",
-      "description": "update",
-      "image": "undefined",
-      "price": "23435",
-      "category": "Phụ kiện",
-      "quantity": 1
+      "quantity": 20
     }
   ],
   "users": [
@@ -196,27 +232,6 @@
   ],
   "orders": [
     {
-      "items": [
-        {
-          "id": 1,
-          "name": "iPhone 15 Pro",
-          "description": "Flagship mới nhất từ Apple.",
-          "image": "https://bachlongstore.vn/vnt_upload/product/10_2023/iii.png",
-          "price": 29990000,
-          "category": "Điện thoại",
-          "quantity": 1
-        }
-      ],
-      "total": 29990000,
-      "paymentMethod": "COD",
-      "customer": {
-        "name": "Nguyễn Văn A",
-        "phone": "0123456789",
-        "address": "Hà Nội, Việt Nam"
-      },
-      "id": 1
-    },
-    {
       "customerName": "Quần áo",
       "address": "hn",
       "phone": "0353164510",
@@ -229,74 +244,32 @@
           "quantity": 1
         }
       ],
-      "id": 2
+      "id": 2,
+      "status": "accepted"
     },
     {
-      "customerName": "Hà Mạnh",
-      "address": "37/341 Xuân Phương",
-      "phone": "0355615690",
-      "paymentMethod": "momo",
-      "totalPrice": 27990000,
+      "customerName": "213",
+      "address": "123",
+      "phone": "21321",
+      "paymentMethod": "cash",
+      "totalPrice": 25990000,
+      "status": "accepted",
       "products": [
         {
-          "name": "Samsung Galaxy S23 Ultra",
-          "price": 27990000,
+          "name": "Dell XPS 13",
+          "price": 25990000,
           "quantity": 1
         }
       ],
       "id": 3
     },
     {
-      "customerName": "Hà Mạnh",
-      "address": "37/341 Xuân Phương",
-      "phone": "0355615690",
-      "paymentMethod": "momo",
-      "totalPrice": 27990000,
-      "products": [
-        {
-          "name": "Samsung Galaxy S23 Ultra",
-          "price": 27990000,
-          "quantity": 1
-        }
-      ],
-      "id": 4
-    },
-    {
-      "customerName": "Hà Mạnh",
-      "address": "37/341 Xuân Phương",
-      "phone": "0355615690",
-      "paymentMethod": "cash",
-      "totalPrice": 27990000,
-      "products": [
-        {
-          "name": "Samsung Galaxy S23 Ultra",
-          "price": 27990000,
-          "quantity": 1
-        }
-      ],
-      "id": 5
-    },
-    {
-      "customerName": "Hà Mạnh",
-      "address": "37/341 Xuân Phương",
-      "phone": "0355615690",
-      "paymentMethod": "credit",
-      "totalPrice": 83970000,
-      "products": [
-        {
-          "name": "Samsung Galaxy S23 Ultra",
-          "price": 27990000,
-          "quantity": 3
-        }
-      ],
-      "id": 6
-    },
-    {
       "customerName": "Quần áo",
-      "address": "hp",
-      "phone": "0353164510",
+      "address": "dn",
+      "phone": "3",
       "paymentMethod": "cash",
       "totalPrice": 289900000,
+      "status": "accepted",
       "products": [
         {
           "name": "MacBook Air M2",
@@ -304,7 +277,173 @@
           "quantity": 10
         }
       ],
+      "id": 4
+    },
+    {
+      "customerName": "1",
+      "address": "1",
+      "phone": "1",
+      "paymentMethod": "cash",
+      "totalPrice": 51980000,
+      "status": "accepted",
+      "products": [
+        {
+          "name": "Dell XPS 13",
+          "price": 25990000,
+          "quantity": 2
+        }
+      ],
+      "id": 5
+    },
+    {
+      "customerName": "1",
+      "address": "1",
+      "phone": "1",
+      "paymentMethod": "cash",
+      "totalPrice": 25990000,
+      "status": "accepted",
+      "products": [
+        {
+          "name": "Dell XPS 13",
+          "price": 25990000,
+          "quantity": 1
+        }
+      ],
+      "id": 6
+    },
+    {
+      "customerName": "1",
+      "address": "2",
+      "phone": "3",
+      "paymentMethod": "cash",
+      "totalPrice": 51980000,
+      "status": "pending",
+      "products": [
+        {
+          "name": "Dell XPS 13",
+          "price": 25990000,
+          "quantity": 2
+        }
+      ],
       "id": 7
+    },
+    {
+      "customerName": "Quần áo",
+      "address": "1",
+      "phone": "1",
+      "paymentMethod": "cash",
+      "totalPrice": 57980000,
+      "status": "pending",
+      "products": [
+        {
+          "name": "MacBook Air M2",
+          "price": 28990000,
+          "quantity": 2
+        }
+      ],
+      "id": 8
+    },
+    {
+      "customerName": "2",
+      "address": "2",
+      "phone": "2",
+      "paymentMethod": "cash",
+      "totalPrice": 65980000,
+      "status": "pending",
+      "orderDate": "2025-04-05",
+      "products": [
+        {
+          "name": "Lenovo Legion 5 Pro",
+          "price": 32990000,
+          "quantity": 2
+        }
+      ],
+      "id": 9
+    },
+    {
+      "customerName": "2",
+      "address": "2",
+      "phone": "2",
+      "paymentMethod": "cash",
+      "totalPrice": 32990000,
+      "status": "pending",
+      "orderDate": "2025-04-05",
+      "products": [
+        {
+          "name": "ASUS ROG Zephyrus G14",
+          "price": 32990000,
+          "quantity": 1
+        }
+      ],
+      "id": 10
+    },
+    {
+      "customerName": "2",
+      "address": "2",
+      "phone": "2",
+      "paymentMethod": "cash",
+      "totalPrice": 65980000,
+      "status": "pending",
+      "orderDate": "2025-04-05",
+      "products": [
+        {
+          "name": "ASUS ROG Zephyrus G14",
+          "price": 32990000,
+          "quantity": 2
+        }
+      ],
+      "id": 11
+    },
+    {
+      "customerName": "2",
+      "address": "2",
+      "phone": "2",
+      "paymentMethod": "cash",
+      "totalPrice": 41980000,
+      "status": "pending",
+      "orderDate": "2025-04-05",
+      "products": [
+        {
+          "name": "Samsung Galaxy Tab S8",
+          "price": 20990000,
+          "quantity": 2
+        }
+      ],
+      "id": 12
+    },
+    {
+      "customerName": "2",
+      "address": "2",
+      "phone": "2",
+      "paymentMethod": "cash",
+      "totalPrice": 15990000,
+      "status": "pending",
+      "orderDate": "2025-04-05",
+      "products": [
+        {
+          "name": "Lenovo Tab P12 Pro",
+          "price": 15990000,
+          "quantity": 1
+        }
+      ],
+      "id": 13
+    },
+    {
+      "customerName": "1 update thanh 2 3",
+      "address": "2",
+      "phone": "21321",
+      "paymentMethod": "cash",
+      "totalPrice": 29990000,
+      "status": "accepted",
+      "orderDate": "2025-04-05",
+      "products": [
+        {
+          "name": "iPhone 15 Pro",
+          "price": 29990000,
+          "quantity": 1
+        }
+      ],
+      "id": 14
     }
   ],
   "cart": [
@@ -337,11 +476,6 @@
         }
       ],
       "id": 2
-    },
-    {
-      "userId": 3,
-      "items": [],
-      "id": 3
     },
     {
       "userId": 4,

@@ -7,11 +7,12 @@ const Checkout: React.FC = () => {
   const { cartItems, clearCart } = useCart();
   const navigate = useNavigate();
   const location = useLocation();
-  
-  // Kiểm tra có sản phẩm "Mua ngay" không
+
+  // Nếu có sản phẩm "Mua ngay" thì lấy, nếu không thì lấy giỏ hàng
   const buyNowProduct = location.state?.buyNowProduct || null;
   const productsToCheckout = buyNowProduct ? [buyNowProduct] : cartItems;
 
+  // State thông tin khách hàng
   const [customer, setCustomer] = useState({
     name: "",
     address: "",
@@ -19,20 +20,44 @@ const Checkout: React.FC = () => {
     paymentMethod: "cash",
   });
 
+  // Tính tổng tiền đơn hàng
   const totalPrice = productsToCheckout.reduce(
     (total, item) => total + item.price * (item.quantity || 1),
     0
   );
 
+  // Hàm xử lý thay đổi thông tin khách hàng
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setCustomer({ ...customer, [e.target.name]: e.target.value });
   };
 
+  // Hàm xử lý khi người dùng xác nhận đơn hàng
   const handleConfirmOrder = async () => {
     if (!customer.name || !customer.address || !customer.phone) {
       alert("Vui lòng nhập đầy đủ thông tin!");
       return;
     }
+
+    // Kiểm tra số lượng sản phẩm trong kho
+    for (const item of productsToCheckout) {
+      try {
+        const response = await axios.get(`http://localhost:3000/products/${item.id}`);
+        const productInStock = response.data;
+
+        // Kiểm tra nếu số lượng trong kho không đủ
+        if (productInStock.quantity < item.quantity) {
+          alert(`Sản phẩm ${item.name} không đủ số lượng trong kho!`);
+          return;
+        }
+      } catch (error) {
+        console.error("Lỗi khi kiểm tra số lượng sản phẩm:", error);
+        alert("Đã xảy ra lỗi khi kiểm tra số lượng sản phẩm!");
+        return;
+      }
+    }
+
+    // Lấy ngày hiện tại
+    const orderDate = new Date().toISOString().split("T")[0]; // Định dạng yyyy-mm-dd
 
     const orderData = {
       customerName: customer.name,
@@ -40,6 +65,8 @@ const Checkout: React.FC = () => {
       phone: customer.phone,
       paymentMethod: customer.paymentMethod,
       totalPrice,
+      status: "pending", // Trạng thái mặc định là "pending"
+      orderDate, // Thêm ngày đặt hàng vào đơn hàng
       products: productsToCheckout.map((item) => ({
         name: item.name,
         price: item.price,
@@ -48,15 +75,39 @@ const Checkout: React.FC = () => {
     };
 
     try {
-      await axios.post("http://localhost:3000/orders", orderData);
+      // Gửi đơn hàng đến API
+      const response = await axios.post("http://localhost:3000/orders", orderData);
       alert("Đơn hàng của bạn đã được đặt thành công!");
-      
-      // Chỉ xóa giỏ hàng nếu đặt hàng từ giỏ hàng
+
+      // Cập nhật lại quantity của từng sản phẩm trong DB theo đúng số lượng đã đặt
+      for (const item of productsToCheckout) {
+        // Lấy số lượng đã đặt từ giỏ hàng
+        const cartQuantity = item.quantity || 1;
+
+        // Lấy thông tin sản phẩm từ cơ sở dữ liệu
+        const response = await axios.get(`http://localhost:3000/products/${item.id}`);
+        const productInStock = response.data;
+
+        // Tính số lượng còn lại trong kho
+        const updatedQuantity = productInStock.quantity - cartQuantity;
+
+        // Cập nhật số lượng trong cơ sở dữ liệu nếu đủ số lượng
+        if (updatedQuantity >= 0) {
+          await axios.patch(`http://localhost:3000/products/${item.id}`, {
+            quantity: updatedQuantity,
+          });
+        } else {
+          alert(`Sản phẩm ${item.name} không đủ số lượng trong kho sau khi đặt!`);
+          return;
+        }
+      }
+
+      // Nếu là đơn hàng "Mua ngay", không cần xóa giỏ hàng
       if (!buyNowProduct) {
         clearCart();
       }
 
-      navigate("/");
+      navigate("/"); // Điều hướng về trang chủ sau khi đặt hàng thành công
     } catch (error) {
       console.error("Lỗi khi đặt hàng:", error);
       alert("Đã xảy ra lỗi, vui lòng thử lại!");

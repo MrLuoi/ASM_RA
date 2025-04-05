@@ -93,6 +93,7 @@ function ProductList() {
             <th>Hình ảnh</th>
             <th>Giá</th>
             <th>Danh mục</th>
+            <th>Số lượng</th>
             <th>Hành động</th>
           </tr>
         </thead>
@@ -107,6 +108,7 @@ function ProductList() {
               </td>
               <td className="price">{product.price.toLocaleString()} đ</td>
               <td>{product.category}</td>
+              <td>{product.quantity}</td>
               <td className="actions">
                 {/* Kiểm tra đăng nhập trước khi cho phép sửa */}
                 <button

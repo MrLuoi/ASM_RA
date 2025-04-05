@@ -18,6 +18,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import AdminDashboard from "./components/AdminDashboard";
 import NotAuthorized from "./pages/NotAuthorized ";
+import OrderManagement from "./orders/orderManagement";
 
 function App() {
   const location = useLocation();
@@ -37,8 +38,8 @@ function App() {
           <Route path="admin/statis" element={<Statistics />} />
           <Route path="/admin/users" element={<UserManagement />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
- 
           <Route path="/not-authorized" element={<NotAuthorized />} />
+          <Route path="/admin/orders" element={<OrderManagement />} />
         </Route>
 
         {/* Routes cho người dùng */}
@@ -48,7 +49,6 @@ function App() {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
-        
       </Routes>
 
       {/* Hiển thị thông báo bằng react-hot-toast */}

@@ -18,6 +18,7 @@ function ProductEdit() {
       description: "",
       image: "",
       price: "",
+      quantity: "",
       category: "",
     },
   });
@@ -37,6 +38,7 @@ function ProductEdit() {
       setValue("description", product.description);
       setValue("image", product.image);
       setValue("price", product.price);
+      setValue("quantity", product.quantity);
       setValue("category", product.category);
     }
   }, [product, setValue]);
@@ -56,7 +58,12 @@ function ProductEdit() {
   });
 
   const onSubmit = (values) => {
-    updateProductMutation.mutate(values);
+    const payload = {
+      ...values,
+      price: Number(values.price),
+      quantity: Number(values.quantity),
+    };
+    updateProductMutation.mutate(payload);
   };
 
   if (isLoading) return <p className="loading">Đang tải dữ liệu...</p>;
@@ -84,6 +91,11 @@ function ProductEdit() {
         <div className="form-group">
           <label className="label">Giá</label>
           <input type="number" {...register("price", { required: true })} className="input" />
+        </div>
+
+        <div className="form-group">
+          <label className="label">Số lượng</label>
+          <input type="number" {...register("quantity", { required: true, min: 0 })} className="input" />
         </div>
 
         <div className="form-group">
