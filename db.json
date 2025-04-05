@@ -185,6 +185,13 @@
       "username": "1",
       "role": "user",
       "id": 12
+    },
+    {
+      "email": "a@gmail.com",
+      "password": "$2a$10$iFkv0P9yfNYbryfyefdqt.ysSW8c9fGe38orb84A1rozB0KAXJddm",
+      "username": "hieuncph51493@gmail.com",
+      "role": "user",
+      "id": 13
     }
   ],
   "orders": [
@@ -355,6 +362,11 @@
       "userId": 12,
       "items": [],
       "id": 7
+    },
+    {
+      "userId": 13,
+      "items": [],
+      "id": 8
     }
   ]
 }
