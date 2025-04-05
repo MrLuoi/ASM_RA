@@ -26,7 +26,13 @@ function ProductAdd() {
   });
 
   const onSubmit = (values: any) => {
-    addProductMutation.mutate(values);
+    // Chuyển giá và quantity về số nguyên
+    const payload = {
+      ...values,
+      price: Number(values.price),
+      quantity: Number(values.quantity),
+    };
+    addProductMutation.mutate(payload);
   };
 
   return (
@@ -50,7 +56,12 @@ function ProductAdd() {
 
         <div className="form-group">
           <label className="label">Giá</label>
-          <input type="number" {...register("price", { required: true })} className="input" />
+          <input type="number" {...register("price", { required: true, min: 0 })} className="input" />
+        </div>
+
+        <div className="form-group">
+          <label className="label">Số lượng</label>
+          <input type="number" {...register("quantity", { required: true, min: 0 })} className="input" />
         </div>
 
         <div className="form-group">

@@ -50,6 +50,11 @@ export default function OrderManagement() {
     }
   };
 
+  const formatDate = (date: string) => {
+    const newDate = new Date(date);
+    return newDate.toLocaleDateString("vi-VN");
+  };
+
   return (
     <div className="order-management">
       <h1>Quản lý đơn hàng</h1>
@@ -75,6 +80,7 @@ export default function OrderManagement() {
             <th>SĐT</th>
             <th>Tổng tiền</th>
             <th>Trạng thái</th>
+            <th>Ngày đặt hàng</th>
             <th>Sản phẩm đã mua</th>
             <th>Hành động</th>
           </tr>
@@ -87,6 +93,7 @@ export default function OrderManagement() {
               <td>{order.phone}</td>
               <td>{(order.totalPrice || 0).toLocaleString()}đ</td>
               <td>{getStatusText(order.status)}</td>
+              <td>{formatDate(order.orderDate)}</td> {/* Hiển thị ngày đặt hàng */}
               <td>
                 <table className="product-table">
                   <thead>

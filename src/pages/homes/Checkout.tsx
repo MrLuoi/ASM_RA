@@ -38,6 +38,27 @@ const Checkout: React.FC = () => {
       return;
     }
 
+    // Kiểm tra số lượng sản phẩm trong kho
+    for (const item of productsToCheckout) {
+      try {
+        const response = await axios.get(`http://localhost:3000/products/${item.id}`);
+        const productInStock = response.data;
+
+        // Kiểm tra nếu số lượng trong kho không đủ
+        if (productInStock.quantity < item.quantity) {
+          alert(`Sản phẩm ${item.name} không đủ số lượng trong kho!`);
+          return;
+        }
+      } catch (error) {
+        console.error("Lỗi khi kiểm tra số lượng sản phẩm:", error);
+        alert("Đã xảy ra lỗi khi kiểm tra số lượng sản phẩm!");
+        return;
+      }
+    }
+
+    // Lấy ngày hiện tại
+    const orderDate = new Date().toISOString().split("T")[0]; // Định dạng yyyy-mm-dd
+
     const orderData = {
       customerName: customer.name,
       address: customer.address,
@@ -45,6 +66,7 @@ const Checkout: React.FC = () => {
       paymentMethod: customer.paymentMethod,
       totalPrice,
       status: "pending", // Trạng thái mặc định là "pending"
+      orderDate, // Thêm ngày đặt hàng vào đơn hàng
       products: productsToCheckout.map((item) => ({
         name: item.name,
         price: item.price,
@@ -57,10 +79,27 @@ const Checkout: React.FC = () => {
       const response = await axios.post("http://localhost:3000/orders", orderData);
       alert("Đơn hàng của bạn đã được đặt thành công!");
 
-      // Cập nhật lại quantity của từng sản phẩm trong DB
+      // Cập nhật lại quantity của từng sản phẩm trong DB theo đúng số lượng đã đặt
       for (const item of productsToCheckout) {
-        const updatedQuantity = item.quantity - 1; // Giảm quantity đi 1
-        await axios.patch(`http://localhost:3000/products/${item.id}`, { quantity: updatedQuantity });
+        // Lấy số lượng đã đặt từ giỏ hàng
+        const cartQuantity = item.quantity || 1;
+
+        // Lấy thông tin sản phẩm từ cơ sở dữ liệu
+        const response = await axios.get(`http://localhost:3000/products/${item.id}`);
+        const productInStock = response.data;
+
+        // Tính số lượng còn lại trong kho
+        const updatedQuantity = productInStock.quantity - cartQuantity;
+
+        // Cập nhật số lượng trong cơ sở dữ liệu nếu đủ số lượng
+        if (updatedQuantity >= 0) {
+          await axios.patch(`http://localhost:3000/products/${item.id}`, {
+            quantity: updatedQuantity,
+          });
+        } else {
+          alert(`Sản phẩm ${item.name} không đủ số lượng trong kho sau khi đặt!`);
+          return;
+        }
       }
 
       // Nếu là đơn hàng "Mua ngay", không cần xóa giỏ hàng

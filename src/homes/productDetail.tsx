@@ -25,6 +25,7 @@ export default function ProductDetail() {
         return res.json();
       })
       .then((data) => {
+        console.log("Dữ liệu sản phẩm:", data); // Debug
         setProduct(data);
         fetchSimilarProducts(data.categoryId, data.id);
       })
@@ -52,8 +53,8 @@ export default function ProductDetail() {
 
   const handleAddToCart = () => {
     if (product) {
-      addToCart(product);
-      alert(`Thêm vào giỏ hàng thành công`);
+      addToCart(product, 1); // truyền số lượng 1
+      alert("Thêm vào giỏ hàng thành công");
     }
   };
 
@@ -71,8 +72,10 @@ export default function ProductDetail() {
         <img src={product.image} alt={product.name} className="product-image" />
         <div className="product-info">
           <h1>{product.name}</h1>
-          <p className="product-quantity">Số lượng còn lại: {product.quantity}</p>
-          <p className="product-price">{product.price.toLocaleString()} VND</p>
+          <p className="product-quantity">
+            Số lượng còn lại: {product.quantity ?? "Không xác định"}
+          </p>
+          <p className="product-price">{product.price?.toLocaleString()} VND</p>
           <p className="product-description">{product.description}</p>
           <button className="buy-button" onClick={handleBuyNow}>Mua ngay</button>
           <button className="add-to-cart-button" onClick={handleAddToCart}>
@@ -88,7 +91,7 @@ export default function ProductDetail() {
               <Link to={`/product/${item.id}`} key={item.id} className="similar-product-card">
                 <img src={item.image} alt={item.name} className="similar-product-image" />
                 <p className="similar-product-name">{item.name}</p>
-                <p className="similar-product-price">{item.price.toLocaleString()} VND</p>
+                <p className="similar-product-price">{item.price?.toLocaleString()} VND</p>
               </Link>
             ))}
           </div>
