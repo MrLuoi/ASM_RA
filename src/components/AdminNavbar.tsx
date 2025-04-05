@@ -7,10 +7,18 @@ export default function AdminNavbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const user = JSON.parse(localStorage.getItem("user") || "{}");
   const username = user.username || user.name || "Admin";
+  const userRole = user.role || ""; // Giả sử role được lưu trữ trong thông tin người dùng
 
   useEffect(() => {
     const checkLoginStatus = () => {
-      setIsLoggedIn(!!localStorage.getItem("token"));
+      const token = localStorage.getItem("token");
+      const role = localStorage.getItem("role");
+
+      if (!token || role !== "admin") {
+        navigate("/login"); // Chuyển hướng về trang login nếu không phải admin hoặc không đăng nhập
+      } else {
+        setIsLoggedIn(true); // Nếu là admin và đã đăng nhập
+      }
     };
 
     checkLoginStatus();
@@ -20,17 +28,18 @@ export default function AdminNavbar() {
     return () => {
       window.removeEventListener("storage", checkLoginStatus);
     };
-  }, []);
+  }, [navigate]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("role"); // Xóa role khi đăng xuất
     setIsLoggedIn(false);
     navigate("/login"); // Chuyển hướng về trang login khi đăng xuất
   };
 
   if (!isLoggedIn) {
-    return null; // Không render AdminNavbar nếu chưa đăng nhập
+    return null; // Không render AdminNavbar nếu chưa đăng nhập hoặc không phải admin
   }
 
   return (
