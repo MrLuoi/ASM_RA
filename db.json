@@ -7,7 +7,7 @@
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC8CkKqS9MRuDff7BsgVHJqaLEU7_MGA5yaw&s",
       "price": 28990000,
       "category": "Laptop",
-      "quantity": 10
+      "quantity": 9
     },
     {
       "id": 7,
@@ -196,27 +196,6 @@
   ],
   "orders": [
     {
-      "items": [
-        {
-          "id": 1,
-          "name": "iPhone 15 Pro",
-          "description": "Flagship mới nhất từ Apple.",
-          "image": "https://bachlongstore.vn/vnt_upload/product/10_2023/iii.png",
-          "price": 29990000,
-          "category": "Điện thoại",
-          "quantity": 1
-        }
-      ],
-      "total": 29990000,
-      "paymentMethod": "COD",
-      "customer": {
-        "name": "Nguyễn Văn A",
-        "phone": "0123456789",
-        "address": "Hà Nội, Việt Nam"
-      },
-      "id": 1
-    },
-    {
       "customerName": "Quần áo",
       "address": "hn",
       "phone": "0353164510",
@@ -230,74 +209,31 @@
         }
       ],
       "id": 2,
-      "status": "pending"
+      "status": "accepted"
     },
     {
-      "customerName": "Hà Mạnh",
-      "address": "37/341 Xuân Phương",
-      "phone": "0355615690",
-      "paymentMethod": "momo",
-      "totalPrice": 27990000,
+      "customerName": "213",
+      "address": "123",
+      "phone": "21321",
+      "paymentMethod": "cash",
+      "totalPrice": 25990000,
+      "status": "accepted",
       "products": [
         {
-          "name": "Samsung Galaxy S23 Ultra",
-          "price": 27990000,
+          "name": "Dell XPS 13",
+          "price": 25990000,
           "quantity": 1
         }
       ],
       "id": 3
     },
     {
-      "customerName": "Hà Mạnh",
-      "address": "37/341 Xuân Phương",
-      "phone": "0355615690",
-      "paymentMethod": "momo",
-      "totalPrice": 27990000,
-      "products": [
-        {
-          "name": "Samsung Galaxy S23 Ultra",
-          "price": 27990000,
-          "quantity": 1
-        }
-      ],
-      "id": 4
-    },
-    {
-      "customerName": "Hà Mạnh",
-      "address": "37/341 Xuân Phương",
-      "phone": "0355615690",
-      "paymentMethod": "cash",
-      "totalPrice": 27990000,
-      "products": [
-        {
-          "name": "Samsung Galaxy S23 Ultra",
-          "price": 27990000,
-          "quantity": 1
-        }
-      ],
-      "id": 5
-    },
-    {
-      "customerName": "Hà Mạnh",
-      "address": "37/341 Xuân Phương",
-      "phone": "0355615690",
-      "paymentMethod": "credit",
-      "totalPrice": 83970000,
-      "products": [
-        {
-          "name": "Samsung Galaxy S23 Ultra",
-          "price": 27990000,
-          "quantity": 3
-        }
-      ],
-      "id": 6
-    },
-    {
       "customerName": "Quần áo",
-      "address": "hp",
-      "phone": "0353164510",
+      "address": "dn",
+      "phone": "3",
       "paymentMethod": "cash",
       "totalPrice": 289900000,
+      "status": "accepted",
       "products": [
         {
           "name": "MacBook Air M2",
@@ -305,7 +241,7 @@
           "quantity": 10
         }
       ],
-      "id": 7
+      "id": 4
     }
   ],
   "cart": [
@@ -340,11 +276,6 @@
       "id": 2
     },
     {
-      "userId": 3,
-      "items": [],
-      "id": 3
-    },
-    {
       "userId": 4,
       "items": [
         {
@@ -361,7 +292,17 @@
     },
     {
       "userId": 10,
-      "items": [],
+      "items": [
+        {
+          "id": 7,
+          "name": "Dell XPS 13",
+          "description": "Laptop Windows cao cấp, màn hình OLED.",
+          "image": "https://bizweb.dktcdn.net/thumb/large/100/362/971/products/9340-436f5cf1-7ccb-4021-864d-1fc9a63ab917-f4bfc531-9b20-4370-a35d-d7d0b710df7c.jpg?v=1726479804040",
+          "price": 25990000,
+          "category": "Laptop",
+          "quantity": null
+        }
+      ],
       "id": 5
     },
     {

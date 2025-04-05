@@ -13,10 +13,9 @@ export default function OrderManagement() {
   const fetchOrders = async () => {
     try {
       const res = await axios.get("http://localhost:3000/orders");
-      // Đảm bảo mỗi đơn hàng đều có mảng 'products', nếu không có thì gán mảng rỗng
       const ordersWithDefaultProducts = res.data.map(order => ({
         ...order,
-        products: order.products || [] // Gán mảng rỗng nếu 'products' không tồn tại
+        products: order.products || []
       }));
       setOrders(ordersWithDefaultProducts);
     } catch (err) {
@@ -33,21 +32,23 @@ export default function OrderManagement() {
     }
   };
 
-  const handleDeleteOrder = async (id: string) => {
-    if (confirm("Bạn có chắc muốn xóa đơn hàng này không?")) {
-      try {
-        await axios.delete(`http://localhost:3000/orders/${id}`);
-        fetchOrders();
-      } catch (err) {
-        console.error("Lỗi khi xóa đơn hàng:", err);
-      }
-    }
-  };
-
   const filteredOrders =
     filterStatus === "all"
       ? orders
       : orders.filter((order) => order.status === filterStatus);
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case "pending":
+        return "Chờ xác nhận";
+      case "accepted":
+        return "Đã xác nhận";
+      case "cancelled":
+        return "Đã hủy";
+      default:
+        return status;
+    }
+  };
 
   return (
     <div className="order-management">
@@ -74,6 +75,7 @@ export default function OrderManagement() {
             <th>SĐT</th>
             <th>Tổng tiền</th>
             <th>Trạng thái</th>
+            <th>Sản phẩm đã mua</th>
             <th>Hành động</th>
           </tr>
         </thead>
@@ -84,18 +86,45 @@ export default function OrderManagement() {
               <td>{order.customerName}</td>
               <td>{order.phone}</td>
               <td>{(order.totalPrice || 0).toLocaleString()}đ</td>
+              <td>{getStatusText(order.status)}</td>
               <td>
-                <select
-                  value={order.status}
-                  onChange={(e) => handleStatusChange(order.id, e.target.value)}
-                >
-                  <option value="pending">Chờ xác nhận</option>
-                  <option value="accepted">Đã xác nhận</option>
-                  <option value="cancelled">Đã hủy</option>
-                </select>
+                <table className="product-table">
+                  <thead>
+                    <tr>
+                      <th>Tên sản phẩm</th>
+                      <th>Số lượng</th>
+                      <th>Giá</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {order.products.map((product: any, index: number) => (
+                      <tr key={index}>
+                        <td>{product.name}</td>
+                        <td>{product.quantity}</td>
+                        <td>{(product.price || 0).toLocaleString()}đ</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </td>
               <td>
-                <button onClick={() => handleDeleteOrder(order.id)}>Xóa</button>
+                {order.status === "pending" ? (
+                  <>
+                    <button
+                      onClick={() => handleStatusChange(order.id, "accepted")}
+                    >
+                      Xác nhận
+                    </button>
+                    <button
+                      onClick={() => handleStatusChange(order.id, "cancelled")}
+                      style={{ marginLeft: "8px", backgroundColor: "red", color: "white" }}
+                    >
+                      Hủy
+                    </button>
+                  </>
+                ) : (
+                  <span style={{ color: "#888" }}>Đã xử lý</span>
+                )}
               </td>
             </tr>
           ))}
