@@ -71,6 +71,7 @@ export default function ProductDetail() {
         <img src={product.image} alt={product.name} className="product-image" />
         <div className="product-info">
           <h1>{product.name}</h1>
+          <p className="product-quantity">Số lượng còn lại: {product.quantity}</p>
           <p className="product-price">{product.price.toLocaleString()} VND</p>
           <p className="product-description">{product.description}</p>
           <button className="buy-button" onClick={handleBuyNow}>Mua ngay</button>

@@ -1,102 +1,69 @@
-import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import "./AdminDashboard.css";
 
-// Định nghĩa interface cho user
-interface User {
-  username?: string;
-  name?: string;
-  role?: string;
-}
-
 export default function AdminDashboard() {
-  const navigate = useNavigate();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(!!localStorage.getItem("token"));
-  const user: User = JSON.parse(localStorage.getItem("user") || "{}");
-  const username: string = user.username || user.name || "Admin";
+  const [userCount, setUserCount] = useState<number>(0);
+  const [productCount, setProductCount] = useState<number>(0); // Tổng số lượng thực
+  const [orderCount, setOrderCount] = useState<number>(0);
+  const [totalRevenue, setTotalRevenue] = useState<number>(0);
 
   useEffect(() => {
-    const checkLoginStatus = () => {
-      const token = localStorage.getItem("token");
-      setIsLoggedIn(!!token);
-      if (!token) navigate("/login");
+    const fetchDashboardData = async () => {
+      try {
+        const [userRes, productRes, orderRes] = await Promise.all([
+          axios.get("http://localhost:3000/users"),
+          axios.get("http://localhost:3000/products"),
+          axios.get("http://localhost:3000/orders"),
+        ]);
+
+        const users = userRes.data;
+        const products = productRes.data;
+        const orders = orderRes.data;
+
+        // Tính tổng số lượng sản phẩm
+        const totalProductQuantity = products.reduce(
+          (acc: number, product: any) => acc + (product.quantity || 0),
+          0
+        );
+
+        const revenue = orders.reduce(
+          (acc: number, order: any) => acc + (order.totalPrice || 0),
+          0
+        );
+
+        setUserCount(users.length);
+        setProductCount(totalProductQuantity);
+        setOrderCount(orders.length);
+        setTotalRevenue(revenue);
+      } catch (err) {
+        console.error("Lỗi khi tải dữ liệu:", err);
+      }
     };
 
-    checkLoginStatus();
-    window.addEventListener("storage", checkLoginStatus);
-
-    return () => {
-      window.removeEventListener("storage", checkLoginStatus);
-    };
-  }, [navigate]);
-
-  const handleLogout = (): void => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setIsLoggedIn(false);
-    navigate("/login");
-  };
+    fetchDashboardData();
+  }, []);
 
   return (
     <div className="admin-dashboard">
-      {/* Navbar */}
-      <nav className="navbar">
-        <div className="logo">
-          <Link to="/admin">Admin Panel</Link>
+      <h1>Tổng quan</h1>
+      <div className="dashboard-cards">
+        <div className="card">
+          <h3>Tổng người dùng</h3>
+          <p>{userCount}</p>
         </div>
-        <div className="user-info">
-          <span>Xin chào, {username}!</span>
-          <button onClick={handleLogout} className="btn btn-logout">
-            Đăng xuất
-          </button>
+        <div className="card">
+          <h3>Tổng số lượng sản phẩm</h3>
+          <p>{productCount}</p>
         </div>
-      </nav>
-
-      {/* Container */}
-      <div className="admin-container">
-        {/* Sidebar */}
-        <aside className="sidebar">
-          <ul className="sidebar-menu">
-            <li>
-              <Link to="/admin/dashboard">Tổng quan</Link>
-            </li>
-            <li>
-              <Link to="/admin/users">Quản lý người dùng</Link>
-            </li>
-            <li>
-              <Link to="/admin/products">Quản lý sản phẩm</Link>
-            </li>
-            <li>
-              <Link to="/admin/orders">Quản lý đơn hàng</Link>
-            </li>
-            <li>
-              <Link to="/admin/settings">Cài đặt</Link>
-            </li>
-          </ul>
-        </aside>
-
-        {/* Main Content */}
-        <main className="main-content">
-          <h1>Tổng quan</h1>
-          <div className="dashboard-cards">
-            <div className="card">
-              <h3>Tổng người dùng</h3>
-              <p>1,245</p>
-            </div>
-            <div className="card">
-              <h3>Tổng sản phẩm</h3>
-              <p>350</p>
-            </div>
-            <div className="card">
-              <h3>Tổng đơn hàng</h3>
-              <p>87</p>
-            </div>
-            <div className="card">
-              <h3>Doanh thu</h3>
-              <p>$12,450</p>
-            </div>
-          </div>
-        </main>
+        <div className="card">
+          <h3>Tổng đơn hàng</h3>
+          <p>{orderCount}</p>
+        </div>
+        <div className="card">
+          <h3>Doanh thu</h3>
+          <p>{totalRevenue.toLocaleString()}đ</p>
+        </div>
       </div>
     </div>
   );

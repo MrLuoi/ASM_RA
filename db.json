@@ -6,15 +6,17 @@
       "description": "Laptop mỏng nhẹ với chip M2 mạnh mẽ.",
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC8CkKqS9MRuDff7BsgVHJqaLEU7_MGA5yaw&s",
       "price": 28990000,
-      "category": "Laptop"
+      "category": "Laptop",
+      "quantity": 10
     },
     {
+      "id": 7,
       "name": "Dell XPS 13",
       "description": "Laptop Windows cao cấp, màn hình OLED.",
       "image": "https://bizweb.dktcdn.net/thumb/large/100/362/971/products/9340-436f5cf1-7ccb-4021-864d-1fc9a63ab917-f4bfc531-9b20-4370-a35d-d7d0b710df7c.jpg?v=1726479804040",
       "price": 25990000,
       "category": "Laptop",
-      "id": 7
+      "quantity": 8
     },
     {
       "id": 8,
@@ -22,7 +24,8 @@
       "description": "Laptop gaming mỏng nhẹ, hiệu năng cao.",
       "image": "https://vn.store.asus.com/media/catalog/product/cache/74e490e088db727ef90851ac50e1fa20/z/e/zephyrus_g14_grey_05_l_rgb_2.png",
       "price": 32990000,
-      "category": "Laptop"
+      "category": "Laptop",
+      "quantity": 7
     },
     {
       "id": 9,
@@ -30,7 +33,8 @@
       "description": "Laptop 2-in-1 cao cấp với màn hình cảm ứng.",
       "image": "https://gamalaptop.vn/wp-content/uploads/2021/07/HP-Spectre-x360-15-01.jpg",
       "price": 27990000,
-      "category": "Laptop"
+      "category": "Laptop",
+      "quantity": 9
     },
     {
       "id": 10,
@@ -38,7 +42,8 @@
       "description": "Laptop gaming hiệu năng cao với màn hình 165Hz.",
       "image": "https://ttcenter.com.vn/uploads/product/z8u5yvst-846-lenovo-legion-5-pro-y9000p-2021h-core-i7-11800h-ram-16gb-ssd-512gb-rtx-3060-16-2-5k-165hz-newo.png",
       "price": 32990000,
-      "category": "Laptop"
+      "category": "Laptop",
+      "quantity": 6
     },
     {
       "id": 11,
@@ -46,7 +51,8 @@
       "description": "Máy tính bảng mạnh mẽ nhất của Apple.",
       "image": "https://product.hstatic.net/1000259254/product/ipad_pro_m2_11_inch_wi-fi_space_gray-1_a4acac801ea94bb9a4707984919b0370_grande.jpg",
       "price": 25990000,
-      "category": "Máy tính bảng"
+      "category": "Máy tính bảng",
+      "quantity": 15
     },
     {
       "id": 12,
@@ -54,7 +60,8 @@
       "description": "Máy tính bảng giá rẻ nhưng mạnh mẽ.",
       "image": "https://i.ebayimg.com/images/g/ij0AAOSwF6Fkv3y6/s-l1200.jpg",
       "price": 8990000,
-      "category": "Máy tính bảng"
+      "category": "Máy tính bảng",
+      "quantity": 20
     },
     {
       "id": 13,
@@ -62,7 +69,8 @@
       "description": "Máy tính bảng Android tốt nhất từ Samsung.",
       "image": "https://gohub.vn/wp-content/uploads/2023/08/617fF6iK4gL-1024x618.jpg",
       "price": 20990000,
-      "category": "Máy tính bảng"
+      "category": "Máy tính bảng",
+      "quantity": 12
     },
     {
       "id": 14,
@@ -70,7 +78,8 @@
       "description": "Máy tính bảng màn OLED với bút stylus.",
       "image": "https://i5.walmartimages.com/seo/Lenovo-Tab-P12-Pro-with-Pen-12-Tablet-128GB-Storage-6GB-Memory-Android-11-2K-Display_22b265e0-bbbe-43c6-856a-3d336d4dad16.5d9343b5017a2495990ab562fe707ee9.jpeg",
       "price": 15990000,
-      "category": "Máy tính bảng"
+      "category": "Máy tính bảng",
+      "quantity": 13
     },
     {
       "id": 15,
@@ -78,7 +87,8 @@
       "description": "Máy tính bảng với màn hình OLED và HarmonyOS.",
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaVw5rXOE72Oiqvk5L9GjPHVFc4BQS5DgNAg&s",
       "price": 16990000,
-      "category": "Máy tính bảng"
+      "category": "Máy tính bảng",
+      "quantity": 10
     },
     {
       "id": 16,
@@ -86,7 +96,8 @@
       "description": "Tai nghe chống ồn tốt nhất thị trường.",
       "image": "https://dienmaytructuyen.vn/wp-content/uploads/2022/06/wh1000xm5.webp",
       "price": 9990000,
-      "category": "Phụ kiện"
+      "category": "Phụ kiện",
+      "quantity": 25
     },
     {
       "id": 17,
@@ -94,7 +105,8 @@
       "description": "Đồng hồ thông minh mạnh mẽ của Apple.",
       "image": "https://cdn2.fptshop.com.vn/unsafe/564x0/filters:quality(80)/Uploads/images/2015/Tin-Tuc/DigitalMarketing/mo-ta-san-pham-apple-watch-series-9%20(5).jpg",
       "price": 11990000,
-      "category": "Phụ kiện"
+      "category": "Phụ kiện",
+      "quantity": 18
     },
     {
       "id": 18,
@@ -102,7 +114,8 @@
       "description": "Chuột không dây đỉnh cao cho dân văn phòng.",
       "image": "https://ngocthiensup.com/wp-content/uploads/Logitech-MX-Master-3-for-Business-04.jpg",
       "price": 2990000,
-      "category": "Phụ kiện"
+      "category": "Phụ kiện",
+      "quantity": 30
     },
     {
       "id": 19,
@@ -110,7 +123,8 @@
       "description": "Bàn phím cơ gaming cao cấp từ Razer.",
       "image": "https://owlgaming.vn/wp-content/uploads/2024/07/Ban-phim-Razer-BlackWidow-V4-75-8.jpg",
       "price": 4490000,
-      "category": "Phụ kiện"
+      "category": "Phụ kiện",
+      "quantity": 22
     },
     {
       "id": 20,
@@ -118,15 +132,17 @@
       "description": "Sạc dự phòng dung lượng lớn, hỗ trợ sạc nhanh.",
       "image": "https://cdn2.cellphones.com.vn/x/media/catalog/product/p/i/pin-du-phong-anker-powercore-plus-power-delivery-a-1375.jpg",
       "price": 1890000,
-      "category": "Phụ kiện"
+      "category": "Phụ kiện",
+      "quantity": 35
     },
     {
+      "id": 21,
       "name": "update",
       "description": "update",
       "image": "undefined",
       "price": "23435",
       "category": "Phụ kiện",
-      "id": 21
+      "quantity": 1
     }
   ],
   "users": [
@@ -155,6 +171,20 @@
       "username": "admin",
       "role": "admin",
       "id": 10
+    },
+    {
+      "email": "hieuncph51493@gmail.com",
+      "password": "$2a$10$ToVvner8z1ZQcoIlWWZB5eywDjzZOFOsfFaqjQy1J9yfhLoXQx/ye",
+      "username": "hieu",
+      "role": "admin",
+      "id": 11
+    },
+    {
+      "email": "ph51493@gmail.com",
+      "password": "$2a$10$tNd5F.4M7MOV9pTjddrbCetsJaU1tcXoLuCFTmvOPBb9VynoryxOi",
+      "username": "1",
+      "role": "user",
+      "id": 12
     }
   ],
   "orders": [
@@ -253,6 +283,21 @@
         }
       ],
       "id": 6
+    },
+    {
+      "customerName": "Quần áo",
+      "address": "hp",
+      "phone": "0353164510",
+      "paymentMethod": "cash",
+      "totalPrice": 289900000,
+      "products": [
+        {
+          "name": "MacBook Air M2",
+          "price": 28990000,
+          "quantity": 10
+        }
+      ],
+      "id": 7
     }
   ],
   "cart": [
@@ -285,6 +330,31 @@
         }
       ],
       "id": 2
+    },
+    {
+      "userId": 3,
+      "items": [],
+      "id": 3
+    },
+    {
+      "userId": 4,
+      "items": [],
+      "id": 4
+    },
+    {
+      "userId": 10,
+      "items": [],
+      "id": 5
+    },
+    {
+      "userId": 11,
+      "items": [],
+      "id": 6
+    },
+    {
+      "userId": 12,
+      "items": [],
+      "id": 7
     }
   ]
 }
