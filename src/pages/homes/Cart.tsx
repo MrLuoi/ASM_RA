@@ -1,45 +1,52 @@
 import { useCart } from "../../cart/CartContext";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"; // Import axios để gửi yêu cầu API
-import "./Cart.css"; // Import CSS thuần
+import axios from "axios";
+import { useEffect, useState } from "react";
+import "./Cart.css";
 
 const Cart: React.FC = () => {
   const { cartItems, removeFromCart, updateQuantity } = useCart();
   const navigate = useNavigate();
+  const [productStock, setProductStock] = useState<Record<string, number>>({});
 
-  // Tính tổng tiền giỏ hàng
+  useEffect(() => {
+    const fetchStock = async () => {
+      try {
+        const response = await axios.get("http://localhost:3000/products");
+        const stockMap: Record<string, number> = {};
+        response.data.forEach((product: any) => {
+          stockMap[product.id] = product.quantity;
+        });
+        setProductStock(stockMap);
+      } catch (err) {
+        console.error("Lỗi lấy tồn kho sản phẩm", err);
+      }
+    };
+    fetchStock();
+  }, []);
+
+  const handleUpdateQuantity = (id: string, newQuantity: number) => {
+    const stock = productStock[id] || 0;
+    if (newQuantity <= 0) return;
+    if (newQuantity > stock) {
+      alert(`Chỉ còn ${stock} sản phẩm trong kho`);
+      return;
+    }
+    updateQuantity(id, newQuantity);
+  };
+
   const totalPrice = cartItems.reduce(
     (total, item) => total + item.price * (item.quantity || 1),
     0
   );
 
-  // Hàm xử lý khi nhấn nút "Thanh toán"
   const handleCheckout = () => {
     navigate("/checkout");
-  };
-
-  // Hàm xử lý cập nhật số lượng sản phẩm trong giỏ hàng và cơ sở dữ liệu
-  const handleUpdateQuantity = async (itemId: string, newQuantity: number) => {
-    if (newQuantity <= 0) return; // Không cho phép số lượng nhỏ hơn hoặc bằng 0
-
-    // Cập nhật giỏ hàng
-    updateQuantity(itemId, newQuantity);
-
-    try {
-      // Gửi yêu cầu PATCH đến API để cập nhật số lượng trong cơ sở dữ liệu
-      await axios.patch(`http://localhost:3000/products/${itemId}`, {
-        quantity: newQuantity,
-      });
-    } catch (error) {
-      console.error("Lỗi khi cập nhật số lượng sản phẩm:", error);
-      alert("Đã xảy ra lỗi khi cập nhật số lượng sản phẩm.");
-    }
   };
 
   return (
     <div className="cart-container">
       <h1 className="cart-title">🛒 Giỏ Hàng</h1>
-
       {cartItems.length === 0 ? (
         <p className="empty-cart">Giỏ hàng của bạn đang trống.</p>
       ) : (
@@ -64,25 +71,26 @@ const Cart: React.FC = () => {
                   <td>{item.price.toLocaleString()} VND</td>
                   <td>
                     <div className="quantity-control">
-                      <button onClick={() => handleUpdateQuantity(item.id, (item.quantity || 1) - 1)}>-</button>
-                      <span>{item.quantity || 1}</span>
-                      <button onClick={() => handleUpdateQuantity(item.id, (item.quantity || 1) + 1)}>+</button>
+                      <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}>-</button>
+                      <span>{item.quantity}</span>
+                      <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}>+</button>
                     </div>
                   </td>
-                  <td className="price">
-                    {(item.price * (item.quantity || 1)).toLocaleString()} VND
-                  </td>
+                  <td>{(item.price * item.quantity).toLocaleString()} VND</td>
                   <td>
-                    <button className="remove-btn" onClick={() => removeFromCart(item.id)}>Xóa</button>
+                    <button className="remove-btn" onClick={() => removeFromCart(item.id)}>
+                      Xóa
+                    </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-
           <div className="cart-footer">
             <h3>Tổng: {totalPrice.toLocaleString()} VND</h3>
-            <button className="checkout-btn" onClick={handleCheckout}>Thanh Toán</button>
+            <button className="checkout-btn" onClick={handleCheckout}>
+              Thanh Toán
+            </button>
           </div>
         </>
       )}

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import "./register.css";
 
 interface IRegister {
   username: string;
@@ -35,62 +36,63 @@ function Register() {
 
   const onSubmit = (values: IRegister) => {
     const { confirmPassword, ...userData } = values;
-    registerMutation.mutate({ ...userData, role: "user" });  // Mặc định vai trò là "user"
+    registerMutation.mutate({ ...userData, role: "user" });
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold text-center mb-4">Đăng Ký</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <div className="register-container">
+      <div className="register-box">
+        <h2 className="register-title">Đăng Ký</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="register-form">
           <div>
-            <label className="block font-medium">Tên đăng nhập</label>
+            <label>Tên đăng nhập</label>
             <input
               {...register("username", { required: "Tên đăng nhập là bắt buộc" })}
-              className="w-full border p-2 rounded"
+              className="register-input"
             />
-            {errors.username && <p className="text-red-500 text-sm">{errors.username.message}</p>}
+            {errors.username && <p className="error-message">{errors.username.message}</p>}
           </div>
 
           <div>
-            <label className="block font-medium">Email</label>
+            <label>Email</label>
             <input
               type="email"
               {...register("email", { required: "Email là bắt buộc" })}
-              className="w-full border p-2 rounded"
+              className="register-input"
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+            {errors.email && <p className="error-message">{errors.email.message}</p>}
           </div>
 
           <div>
-            <label className="block font-medium">Mật khẩu</label>
+            <label>Mật khẩu</label>
             <input
               type="password"
-              {...register("password", { required: "Mật khẩu là bắt buộc", minLength: { value: 6, message: "Ít nhất 6 ký tự" } })}
-              className="w-full border p-2 rounded"
+              {...register("password", {
+                required: "Mật khẩu là bắt buộc",
+                minLength: { value: 6, message: "Ít nhất 6 ký tự" },
+              })}
+              className="register-input"
             />
-            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+            {errors.password && <p className="error-message">{errors.password.message}</p>}
           </div>
 
           <div>
-            <label className="block font-medium">Xác nhận mật khẩu</label>
+            <label>Xác nhận mật khẩu</label>
             <input
               type="password"
               {...register("confirmPassword", {
                 required: "Xác nhận mật khẩu là bắt buộc",
-                validate: (value) => value === watch("password") || "Mật khẩu không khớp!",
+                validate: (value) =>
+                  value === watch("password") || "Mật khẩu không khớp!",
               })}
-              className="w-full border p-2 rounded"
+              className="register-input"
             />
-            {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
+            {errors.confirmPassword && (
+              <p className="error-message">{errors.confirmPassword.message}</p>
+            )}
           </div>
 
-          {/* Đã xóa phần đăng ký vai trò */}
-          
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-          >
+          <button type="submit" className="register-button">
             Đăng Ký
           </button>
         </form>

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import "./login.css";
 
 interface ILogin {
   email: string;
@@ -10,6 +11,7 @@ interface ILogin {
 }
 
 interface IUser {
+  id: string;
   username: string;
   role: "admin" | "user";
 }
@@ -29,13 +31,14 @@ function Login() {
     },
     onSuccess: (data) => {
       const token = data.accessToken;
-      const user: IUser = data.user || { username: "Khách", role: "user" };
+      const user: IUser = data.user;
 
-      if (token) {
+      if (token && user) {
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
-        toast.success("✅ Đăng nhập thành công!");
+        localStorage.setItem("userId", user.id);
 
+        toast.success("✅ Đăng nhập thành công!");
         navigate(user.role === "admin" ? "/admin/list" : "/");
         window.location.reload();
       } else {
@@ -53,33 +56,31 @@ function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold text-center mb-4">🔑 Đăng Nhập</h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <label className="block font-medium">Email</label>
+    <div className="login-container">
+      <div className="login-box">
+        <h2 className="login-title">🔑 Đăng Nhập</h2>
+        <form onSubmit={handleSubmit(onSubmit)} className="login-form">
+          <div className="form-group">
+            <label>Email</label>
             <input
               type="email"
               {...register("email", { required: "Vui lòng nhập email hợp lệ!" })}
-              className="w-full border p-2 rounded"
             />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+            {errors.email && <p className="error-message">{errors.email.message}</p>}
           </div>
 
-          <div>
-            <label className="block font-medium">Mật khẩu</label>
+          <div className="form-group">
+            <label>Mật khẩu</label>
             <input
               type="password"
               {...register("password", { required: "Vui lòng nhập mật khẩu!" })}
-              className="w-full border p-2 rounded"
             />
-            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+            {errors.password && <p className="error-message">{errors.password.message}</p>}
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 disabled:opacity-50"
+            className="login-button"
             disabled={loginMutation.isPending}
           >
             {loginMutation.isPending ? "Đang xử lý..." : "Đăng Nhập"}

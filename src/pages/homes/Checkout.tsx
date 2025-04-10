@@ -8,11 +8,9 @@ const Checkout: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Nếu có sản phẩm "Mua ngay" thì lấy, nếu không thì lấy giỏ hàng
   const buyNowProduct = location.state?.buyNowProduct || null;
   const productsToCheckout = buyNowProduct ? [buyNowProduct] : cartItems;
 
-  // State thông tin khách hàng
   const [customer, setCustomer] = useState({
     name: "",
     address: "",
@@ -20,33 +18,58 @@ const Checkout: React.FC = () => {
     paymentMethod: "cash",
   });
 
-  // Tính tổng tiền đơn hàng
+  const [errors, setErrors] = useState({
+    name: "",
+    address: "",
+    phone: "",
+  });
+
   const totalPrice = productsToCheckout.reduce(
     (total, item) => total + item.price * (item.quantity || 1),
     0
   );
 
-  // Hàm xử lý thay đổi thông tin khách hàng
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setCustomer({ ...customer, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setCustomer({ ...customer, [name]: value });
+
+    // Clear lỗi khi đang gõ
+    setErrors({ ...errors, [name]: "" });
   };
 
-  // Hàm xử lý khi người dùng xác nhận đơn hàng
-  const handleConfirmOrder = async () => {
-    if (!customer.name || !customer.address || !customer.phone) {
-      alert("Vui lòng nhập đầy đủ thông tin!");
-      return;
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = { name: "", address: "", phone: "" };
+    const phoneRegex = /^0\d{9}$/;
+
+    if (!customer.name.trim() || customer.name.length < 2) {
+      newErrors.name = "Họ tên phải có ít nhất 2 ký tự.";
+      valid = false;
     }
 
-    // Kiểm tra số lượng sản phẩm trong kho
+    if (!customer.address.trim() || customer.address.length < 5) {
+      newErrors.address = "Địa chỉ phải có ít nhất 5 ký tự.";
+      valid = false;
+    }
+
+    if (!phoneRegex.test(customer.phone)) {
+      newErrors.phone = "Số điện thoại không hợp lệ. Phải có 10 số và bắt đầu bằng 0.";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
+  const handleConfirmOrder = async () => {
+    if (!validateForm()) return;
+
+    // Kiểm tra số lượng trong kho
     for (const item of productsToCheckout) {
       try {
-        const response = await axios.get(`http://localhost:3000/products/${item.id}`);
-        const productInStock = response.data;
-
-        // Kiểm tra nếu số lượng trong kho không đủ
-        if (productInStock.quantity < item.quantity) {
-          alert(`Sản phẩm ${item.name} không đủ số lượng trong kho!`);
+        const { data: productInStock } = await axios.get(`http://localhost:3000/products/${item.id}`);
+        if (productInStock.quantity < (item.quantity || 1)) {
+          alert(`Sản phẩm "${item.name}" không đủ số lượng trong kho!`);
           return;
         }
       } catch (error) {
@@ -56,17 +79,16 @@ const Checkout: React.FC = () => {
       }
     }
 
-    // Lấy ngày hiện tại
-    const orderDate = new Date().toISOString().split("T")[0]; // Định dạng yyyy-mm-dd
+    const orderDate = new Date().toISOString().split("T")[0];
 
     const orderData = {
-      customerName: customer.name,
-      address: customer.address,
+      customerName: customer.name.trim(),
+      address: customer.address.trim(),
       phone: customer.phone,
       paymentMethod: customer.paymentMethod,
       totalPrice,
-      status: "pending", // Trạng thái mặc định là "pending"
-      orderDate, // Thêm ngày đặt hàng vào đơn hàng
+      status: "pending",
+      orderDate,
       products: productsToCheckout.map((item) => ({
         name: item.name,
         price: item.price,
@@ -75,39 +97,25 @@ const Checkout: React.FC = () => {
     };
 
     try {
-      // Gửi đơn hàng đến API
-      const response = await axios.post("http://localhost:3000/orders", orderData);
+      await axios.post("http://localhost:3000/orders", orderData);
       alert("Đơn hàng của bạn đã được đặt thành công!");
 
-      // Cập nhật lại quantity của từng sản phẩm trong DB theo đúng số lượng đã đặt
+      // Cập nhật số lượng sản phẩm
       for (const item of productsToCheckout) {
-        // Lấy số lượng đã đặt từ giỏ hàng
         const cartQuantity = item.quantity || 1;
-
-        // Lấy thông tin sản phẩm từ cơ sở dữ liệu
-        const response = await axios.get(`http://localhost:3000/products/${item.id}`);
-        const productInStock = response.data;
-
-        // Tính số lượng còn lại trong kho
+        const { data: productInStock } = await axios.get(`http://localhost:3000/products/${item.id}`);
         const updatedQuantity = productInStock.quantity - cartQuantity;
 
-        // Cập nhật số lượng trong cơ sở dữ liệu nếu đủ số lượng
-        if (updatedQuantity >= 0) {
-          await axios.patch(`http://localhost:3000/products/${item.id}`, {
-            quantity: updatedQuantity,
-          });
-        } else {
-          alert(`Sản phẩm ${item.name} không đủ số lượng trong kho sau khi đặt!`);
-          return;
-        }
+        await axios.patch(`http://localhost:3000/products/${item.id}`, {
+          quantity: updatedQuantity,
+        });
       }
 
-      // Nếu là đơn hàng "Mua ngay", không cần xóa giỏ hàng
       if (!buyNowProduct) {
         clearCart();
       }
 
-      navigate("/"); // Điều hướng về trang chủ sau khi đặt hàng thành công
+      navigate("/");
     } catch (error) {
       console.error("Lỗi khi đặt hàng:", error);
       alert("Đã xảy ra lỗi, vui lòng thử lại!");
@@ -123,26 +131,32 @@ const Checkout: React.FC = () => {
           type="text"
           name="name"
           placeholder="Họ và tên"
-          className="form-control mb-2"
+          className="form-control mb-1"
           value={customer.name}
           onChange={handleChange}
         />
+        {errors.name && <small className="text-danger">{errors.name}</small>}
+
         <input
           type="text"
           name="address"
           placeholder="Địa chỉ"
-          className="form-control mb-2"
+          className="form-control mb-1"
           value={customer.address}
           onChange={handleChange}
         />
+        {errors.address && <small className="text-danger">{errors.address}</small>}
+
         <input
           type="text"
           name="phone"
           placeholder="Số điện thoại"
-          className="form-control mb-2"
+          className="form-control mb-1"
           value={customer.phone}
           onChange={handleChange}
         />
+        {errors.phone && <small className="text-danger">{errors.phone}</small>}
+
         <select
           name="paymentMethod"
           className="form-control mb-3"

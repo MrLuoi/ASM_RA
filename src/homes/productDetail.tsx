@@ -3,10 +3,20 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useCart } from "../cart/CartContext";
 import "./productDetail.css";
 
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  description: string;
+  quantity?: number;
+  categoryId: number;
+}
+
 export default function ProductDetail() {
   const { id } = useParams();
-  const [product, setProduct] = useState<any>(null);
-  const [similarProducts, setSimilarProducts] = useState<any[]>([]);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [similarProducts, setSimilarProducts] = useState<Product[]>([]);
   const { addToCart } = useCart();
   const navigate = useNavigate();
 
@@ -25,7 +35,6 @@ export default function ProductDetail() {
         return res.json();
       })
       .then((data) => {
-        console.log("Dữ liệu sản phẩm:", data); // Debug
         setProduct(data);
         fetchSimilarProducts(data.categoryId, data.id);
       })
@@ -45,7 +54,7 @@ export default function ProductDetail() {
     })
       .then((res) => res.json())
       .then((data) => {
-        const filteredProducts = data.filter((item: any) => item.id !== currentProductId);
+        const filteredProducts = data.filter((item: Product) => item.id !== currentProductId);
         setSimilarProducts(filteredProducts);
       })
       .catch((err) => console.error("Lỗi khi lấy sản phẩm tương tự:", err));
@@ -53,13 +62,21 @@ export default function ProductDetail() {
 
   const handleAddToCart = () => {
     if (product) {
-      addToCart(product, 1); // truyền số lượng 1
+      if (!product.quantity || product.quantity <= 0) {
+        alert("Sản phẩm đã hết hàng");
+        return;
+      }
+      addToCart(product, 1);
       alert("Thêm vào giỏ hàng thành công");
     }
   };
 
   const handleBuyNow = () => {
     if (product) {
+      if (!product.quantity || product.quantity <= 0) {
+        alert("Sản phẩm đã hết hàng");
+        return;
+      }
       navigate("/checkout", { state: { buyNowProduct: product } });
     }
   };
@@ -73,16 +90,20 @@ export default function ProductDetail() {
         <div className="product-info">
           <h1>{product.name}</h1>
           <p className="product-quantity">
-            Số lượng còn lại: {product.quantity ?? "Không xác định"}
+            Số lượng còn lại:{" "}
+            {product.quantity && product.quantity > 0 ? product.quantity : <span style={{ color: "red" }}>Hết hàng</span>}
           </p>
-          <p className="product-price">{product.price?.toLocaleString()} VND</p>
+          <p className="product-price">{product.price.toLocaleString()} VND</p>
           <p className="product-description">{product.description}</p>
-          <button className="buy-button" onClick={handleBuyNow}>Mua ngay</button>
-          <button className="add-to-cart-button" onClick={handleAddToCart}>
+          <button className="buy-button" onClick={handleBuyNow} disabled={!product.quantity || product.quantity <= 0}>
+            Mua ngay
+          </button>
+          <button className="add-to-cart-button" onClick={handleAddToCart} disabled={!product.quantity || product.quantity <= 0}>
             Thêm giỏ hàng
           </button>
         </div>
       </div>
+
       {similarProducts.length > 0 && (
         <div className="similar-products">
           <h2>Sản phẩm tương tự</h2>
@@ -91,7 +112,7 @@ export default function ProductDetail() {
               <Link to={`/product/${item.id}`} key={item.id} className="similar-product-card">
                 <img src={item.image} alt={item.name} className="similar-product-image" />
                 <p className="similar-product-name">{item.name}</p>
-                <p className="similar-product-price">{item.price?.toLocaleString()} VND</p>
+                <p className="similar-product-price">{item.price.toLocaleString()} VND</p>
               </Link>
             ))}
           </div>
