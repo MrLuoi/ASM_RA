@@ -452,13 +452,22 @@
       "userId": 8,
       "items": [
         {
+          "id": 3,
+          "name": "Google Pixel 7 Pro",
+          "description": "Chiếc flagship Android với camera xuất sắc.",
+          "image": "https://cdn.tgdd.vn/Files/2022/10/22/1480795/24_1280x820-800-resize.jpg",
+          "price": 24990000,
+          "category": "Điện thoại",
+          "quantity": 1
+        },
+        {
           "id": 7,
           "name": "Dell XPS 13",
           "description": "Laptop Windows cao cấp, màn hình OLED.",
           "image": "https://bizweb.dktcdn.net/thumb/large/100/362/971/products/9340-436f5cf1-7ccb-4021-864d-1fc9a63ab917-f4bfc531-9b20-4370-a35d-d7d0b710df7c.jpg?v=1726479804040",
           "price": 25990000,
           "category": "Laptop",
-          "quantity": 8
+          "quantity": 1
         }
       ]
     },
