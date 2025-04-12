@@ -19,6 +19,8 @@ import "./App.css";
 import AdminDashboard from "./components/AdminDashboard";
 import NotAuthorized from "./pages/NotAuthorized ";
 import OrderManagement from "./orders/orderManagement";
+import Footer from "./components/Footer";
+import Contact from "./homes/Contact";
 
 function App() {
   const location = useLocation();
@@ -40,6 +42,7 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/not-authorized" element={<NotAuthorized />} />
           <Route path="/admin/orders" element={<OrderManagement />} />
+          
         </Route>
 
         {/* Routes cho người dùng */}
@@ -49,10 +52,12 @@ function App() {
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/contact" element={<Contact />} />
       </Routes>
 
       {/* Hiển thị thông báo bằng react-hot-toast */}
       <Toaster />
+       <Footer />
     </>
   );
 }

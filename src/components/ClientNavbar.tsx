@@ -58,7 +58,7 @@ export default function ClientNavbar() {
 
       <ul className="nav-links">
         <li><Link to="/">Trang chủ</Link></li>
-        <li><Link to="/products">Sản phẩm</Link></li>
+        <li><Link to="/">Sản phẩm</Link></li>
         <li><Link to="/contact">Liên hệ</Link></li>
         <li><Link to="/cart">Giỏ hàng</Link></li>
         {isAdmin && (
